@@ -15,6 +15,16 @@ const config: Config = {
         line: "var(--color-line)",
         field: "var(--color-field)",
       },
+      keyframes: {
+        kenburns: {
+          "0%": { transform: "scale(1.12)" },
+          "100%": { transform: "scale(1)" },
+        },
+      },
+      animation: {
+        // Uma vez só (sem loop infinito: WCAG 2.2.2)
+        kenburns: "kenburns 2.6s cubic-bezier(0.22,1,0.36,1) both",
+      },
       fontFamily: {
         serif: ["var(--font-serif)", "Georgia", "serif"],
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],

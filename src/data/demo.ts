@@ -455,3 +455,37 @@ export function generateDemoState(today: string): DemoState {
   }
   return { patients, appointments, blocks: [] };
 }
+
+/* ---------------------------------------------------------------
+ * 10. Imagens e vídeo (ILUSTRATIVOS — banco de imagens)
+ *     Substituir por fotos e vídeos reais da clínica.
+ *     Fotos: Unsplash (Licença Unsplash). Vídeo: Mixkit (Licença
+ *     gratuita Mixkit). Ambas permitem uso comercial sem atribuição.
+ *     Regra do projeto: sem fotos de antes e depois e sem rostos
+ *     de banco de imagem no lugar de profissionais ou pacientes reais.
+ * ------------------------------------------------------------- */
+import heroImg from "@/assets/media/hero.jpg";
+import harmonizacaoImg from "@/assets/media/harmonizacao.jpg";
+import limpezaImg from "@/assets/media/limpeza.jpg";
+import acneImg from "@/assets/media/acne.jpg";
+import microdermoImg from "@/assets/media/microdermo.jpg";
+import sobrancelhaImg from "@/assets/media/sobrancelha.jpg";
+import serumImg from "@/assets/media/serum.jpg";
+import cuidadoPoster from "@/assets/media/cuidado-poster.jpg";
+
+export const media = {
+  hero: { src: heroImg, alt: "Mulher de perfil com pele natural e cabelos soltos, em luz suave" },
+  harmonizacao: { src: harmonizacaoImg, alt: "Profissional de luvas durante procedimento facial em paciente de olhos fechados" },
+  serum: { src: serumImg, alt: "Frasco âmbar de sérum com conta-gotas sobre pedra clara" },
+  services: {
+    limpeza: { src: limpezaImg, alt: "Paciente recebendo máscara facial durante limpeza de pele" },
+    acne: { src: acneImg, alt: "Aplicação de máscara com pincel em tratamento facial" },
+    microdermo: { src: microdermoImg, alt: "Aparelho de microdermoabrasão sendo usado na testa da paciente" },
+    sobrancelha: { src: sobrancelhaImg, alt: "Design de sobrancelha com linha" },
+  } as Record<string, { src: typeof heroImg; alt: string }>,
+  video: {
+    src: "/media/cuidado.mp4",
+    poster: cuidadoPoster,
+    label: "Vídeo ilustrativo: massagem facial feita com calma por profissional de luvas",
+  },
+};

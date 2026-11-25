@@ -1,13 +1,16 @@
+import Image from "next/image";
 import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { MobileCta } from "@/components/MobileCta";
+import { AmbientVideo, CountUp, ParallaxImage, RevealImage, ScrollMarquee } from "@/components/media";
 import { Float, HeroIn, HeroItem, MotionProvider, Press, Reveal, Stagger, StaggerItem } from "@/components/motion";
 import {
   business,
   faq,
   featuredProfessional,
   hoursLabel,
+  media,
   professionals,
   services,
   testimonials,
@@ -75,7 +78,7 @@ export default function Home() {
         {/* 1. Hero */}
         <section className="relative overflow-hidden">
           <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,var(--color-primary-soft),transparent_60%)]" />
-          <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 pb-16 pt-12 sm:pb-24 sm:pt-20 lg:grid-cols-[1.25fr_1fr]">
+          <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 pb-16 pt-12 sm:pb-24 sm:pt-20 lg:grid-cols-[1.1fr_1fr]">
             <HeroIn>
             <HeroItem>
             <a
@@ -106,41 +109,86 @@ export default function Home() {
               <p className="mt-3 text-sm text-muted">Avaliação gratuita · Parque do Carmo, Zona Leste de SP</p>
             </HeroItem>
             </HeroIn>
-            <HeroIn className="relative">
-            <Float className="pointer-events-none absolute -right-10 -top-12 -z-10 hidden lg:block">
-              <div aria-hidden="true" className="h-56 w-56 rounded-full bg-[radial-gradient(circle,#e8cfc6,transparent_70%)] opacity-80" />
-            </Float>
-            <HeroItem from="right">
-            <aside aria-labelledby="t-visita" className="card relative p-6 shadow-[0_20px_60px_-30px_rgba(140,90,80,0.45)] sm:p-8">
-              <p className="text-xs font-semibold uppercase tracking-widest text-primary-dark">Sua primeira visita</p>
-              <h2 id="t-visita" className="mt-2 font-serif text-3xl font-semibold text-ink">Começa por uma conversa</h2>
-              <ul className="mt-5 space-y-4">
-                {[
-                  ["Avaliação gratuita", "Análise facial e histórico de saúde, sem compromisso."],
-                  ["Protocolo individual", "Indicação pensada para o seu rosto, sem exageros."],
-                  ["Retorno incluso", "Revisão do resultado da toxina em cerca de 15 dias."],
-                ].map(([t, d]) => (
-                  <li key={t} className="flex gap-3">
-                    <span aria-hidden="true" className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary-soft text-sm text-primary-dark">✓</span>
-                    <span>
-                      <span className="block font-semibold text-ink">{t}</span>
-                      <span className="block text-sm text-muted">{d}</span>
-                    </span>
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-6 border-t border-line pt-4 text-sm text-muted">
-                <span className="font-medium text-ink">{business.street}</span> · {business.neighborhood}
-              </p>
-            </aside>
-            </HeroItem>
-            </HeroIn>
+            <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+              <Float className="pointer-events-none absolute -right-12 -top-10 -z-10 hidden lg:block">
+                <div aria-hidden="true" className="h-64 w-64 rounded-full bg-[radial-gradient(circle,#e8cfc6,transparent_70%)]" />
+              </Float>
+              {/* Foto em arco: fica visível desde o início (é candidata a LCP), só com zoom suave */}
+              <div className="relative aspect-[4/3] overflow-hidden rounded-[32px] sm:aspect-[4/5] sm:rounded-b-[32px] sm:rounded-t-[999px]">
+                <Image
+                  src={media.hero.src}
+                  alt={media.hero.alt}
+                  fill
+                  priority
+                  placeholder="blur"
+                  sizes="(min-width: 1024px) 480px, (min-width: 640px) 448px, 100vw"
+                  className="animate-kenburns object-cover object-[50%_30%]"
+                />
+                <span className="chip absolute bottom-3 right-3 bg-white/85 text-[11px] text-muted backdrop-blur">Imagem ilustrativa</span>
+              </div>
+              <HeroIn>
+                <HeroItem from="right">
+                  <aside
+                    aria-labelledby="t-visita"
+                    className="card relative mx-3 -mt-14 p-5 shadow-[0_24px_60px_-28px_rgba(140,90,80,0.55)] sm:mx-6 lg:absolute lg:-left-20 lg:bottom-10 lg:mx-0 lg:mt-0 lg:w-[330px]"
+                  >
+                    <p className="text-xs font-semibold uppercase tracking-widest text-primary-dark">Sua primeira visita</p>
+                    <h2 id="t-visita" className="mt-1 font-serif text-2xl font-semibold text-ink">Começa por uma conversa</h2>
+                    <ul className="mt-3 space-y-2.5 text-sm">
+                      {[
+                        ["Avaliação gratuita", "sem compromisso"],
+                        ["Protocolo individual", "pensado para o seu rosto"],
+                        ["Retorno incluso", "em cerca de 15 dias"],
+                      ].map(([t, d]) => (
+                        <li key={t} className="flex items-start gap-2.5">
+                          <span aria-hidden="true" className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary-soft text-xs text-primary-dark">✓</span>
+                          <span>
+                            <span className="font-semibold text-ink">{t}</span> <span className="text-muted">· {d}</span>
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </aside>
+                </HeroItem>
+              </HeroIn>
+            </div>
           </div>
         </section>
 
+        {/* Números */}
+        <section aria-label="Em números" className="border-t border-line bg-surface">
+          <Stagger as="dl" className="mx-auto grid max-w-6xl grid-cols-2 gap-y-6 px-4 py-10 text-center md:grid-cols-4">
+            {[
+              { v: <CountUp to={business.rating} decimals={1} />, l: "nota no Google", star: true },
+              { v: <CountUp to={business.reviewCount} />, l: "avaliações de pacientes" },
+              { v: <CountUp to={15} suffix=" dias" />, l: "para o retorno da toxina" },
+              { v: <span>Grátis</span>, l: "avaliação de harmonização" },
+            ].map((it, i) => (
+              <StaggerItem key={i} className="flex flex-col-reverse">
+                <dt className="mt-1 text-sm text-muted">{it.l}</dt>
+                <dd className="font-serif text-4xl font-semibold text-primary-dark sm:text-5xl">
+                  {it.v}
+                  {it.star && <span aria-hidden="true" className="ml-1 text-3xl text-[#A8742A]">★</span>}
+                </dd>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </section>
+        <ScrollMarquee words={["Resultados naturais", "Protocolo individual", "Atendimento acolhedor", "Segurança em cada etapa", "Beleza com propósito"]} />
+
         {/* 2. Harmonização */}
-        <section id="procedimentos" className="bg-surface py-16 sm:py-20" aria-labelledby="t-harm">
-          <div className="mx-auto max-w-6xl px-4">
+        <section id="procedimentos" className="bg-surface py-16 sm:py-24" aria-labelledby="t-harm">
+          <div className="mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+            <div className="relative">
+              <ParallaxImage
+                src={media.harmonizacao.src}
+                alt={media.harmonizacao.alt}
+                sizes="(min-width: 1024px) 440px, 100vw"
+                className="aspect-[4/3] rounded-[28px] sm:aspect-[5/4] lg:aspect-[4/5]"
+              />
+              <span className="chip absolute bottom-3 left-3 bg-white/85 text-[11px] text-muted backdrop-blur">Imagem ilustrativa</span>
+            </div>
+            <div>
             <Reveal>
             <p className="text-sm font-semibold uppercase tracking-widest text-primary-dark">Procedimentos</p>
             <h2 id="t-harm" className="h-section mt-2">Harmonização facial</h2>
@@ -148,9 +196,9 @@ export default function Home() {
               Cada rosto tem uma história. O plano é definido na avaliação, sempre com indicação individual.
             </p>
             </Reveal>
-            <Stagger className="mt-10 grid gap-6 md:grid-cols-2">
+            <Stagger className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
               {harmonizacao.map((h) => (
-                <StaggerItem as="article" lift key={h.title} className="card p-6 sm:p-8">
+                <StaggerItem as="article" lift key={h.title} className="card p-6">
                   <h3 className="font-serif text-2xl font-semibold text-ink">{h.title}</h3>
                   <p className="mt-3 text-muted">{h.text}</p>
                   <ul className="mt-5 flex flex-wrap gap-2" aria-label="Regiões">
@@ -170,6 +218,7 @@ export default function Home() {
                 <Link href="/agendar?servico=avaliacao" className="btn-primary">Agendar avaliação</Link>
               </Press>
             </Reveal>
+            </div>
           </div>
         </section>
 
@@ -182,7 +231,19 @@ export default function Home() {
             </Reveal>
             <Stagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {estetica.map((s) => (
-                <StaggerItem as="article" lift key={s.id} className="card flex flex-col p-5">
+                <StaggerItem as="article" lift key={s.id} className="card group flex flex-col overflow-hidden p-5">
+                  {media.services[s.id] && (
+                    <div className="relative -mx-5 -mt-5 mb-4 aspect-[4/3] overflow-hidden">
+                      <Image
+                        src={media.services[s.id].src}
+                        alt={media.services[s.id].alt}
+                        fill
+                        placeholder="blur"
+                        sizes="(min-width: 1024px) 270px, (min-width: 640px) 50vw, 100vw"
+                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                      />
+                    </div>
+                  )}
                   <h3 className="font-semibold text-ink">{s.name}</h3>
                   <p className="mt-2 flex-1 text-sm text-muted">{s.description}</p>
                   <dl className="mt-4 flex items-end justify-between border-t border-line pt-3 text-sm">
@@ -205,7 +266,7 @@ export default function Home() {
                 </StaggerItem>
               ))}
             </Stagger>
-            <p className="mt-4 text-xs text-muted">Valores ilustrativos.</p>
+            <p className="mt-4 text-xs text-muted">Valores e imagens ilustrativos.</p>
           </div>
         </section>
 
@@ -227,6 +288,50 @@ export default function Home() {
                 </StaggerItem>
               ))}
             </Stagger>
+          </div>
+        </section>
+
+        {/* Experiência (vídeo) */}
+        <section className="relative overflow-hidden bg-ink py-16 text-white sm:py-24" aria-labelledby="t-exp">
+          <div aria-hidden="true" className="absolute -left-32 top-0 h-96 w-96 rounded-full bg-[radial-gradient(circle,rgba(185,132,122,0.35),transparent_70%)]" />
+          <div className="relative mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-[1fr_1.1fr] lg:items-center">
+            <Reveal>
+              <p className="text-sm font-semibold uppercase tracking-widest text-[#E3BDB4]">A experiência</p>
+              <h2 id="t-exp" className="mt-2 font-serif text-4xl font-semibold leading-tight sm:text-5xl">Um cuidado feito sem pressa</h2>
+              <p className="mt-4 max-w-md text-[#D9CFCB]">
+                Do primeiro contato ao retorno, cada etapa é pensada para você se sentir segura, ouvida e à vontade.
+              </p>
+              <ul className="mt-6 space-y-3 text-[#EFE7E4]">
+                {["Ambiente reservado e acolhedor", "Produtos registrados e técnica segura", "Orientações claras para o pós"].map((t) => (
+                  <li key={t} className="flex items-center gap-3">
+                    <span aria-hidden="true" className="h-px w-6 bg-[#E3BDB4]" />
+                    {t}
+                  </li>
+                ))}
+              </ul>
+              <Press className="mt-8 inline-block">
+                <Link href="/agendar?servico=avaliacao" className="btn bg-white text-primary-dark hover:bg-primary-soft">Agendar avaliação</Link>
+              </Press>
+            </Reveal>
+            <div>
+              <div className="relative">
+              <Reveal>
+                <AmbientVideo
+                  src={media.video.src}
+                  poster={media.video.poster}
+                  label={media.video.label}
+                  className="aspect-[16/11] rounded-[28px] shadow-2xl lg:aspect-square"
+                />
+              </Reveal>
+              <RevealImage
+                src={media.serum.src}
+                alt={media.serum.alt}
+                sizes="180px"
+                className="absolute -bottom-10 -left-10 hidden aspect-[4/5] w-44 rounded-3xl border-4 border-ink shadow-xl lg:block"
+              />
+              </div>
+              <p className="mt-3 text-right text-xs text-[#BFB3AF]">Vídeo e imagens ilustrativos</p>
+            </div>
           </div>
         </section>
 
