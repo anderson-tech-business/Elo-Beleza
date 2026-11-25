@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Identidade visual provisória — troque aqui quando a marca chegar */
+:root {
+  --color-primary: #b9847a;
+  --color-primary-dark: #8c5a50;
+  --color-primary-soft: #f3e6e1;
+  --color-bg: #fbf7f4;
+  --color-surface: #ffffff;
+  --color-text: #2b2626;
+  /* Levemente mais escuro que a sugestão (#7A6F6C) para garantir contraste AA */
+  --color-muted: #6e6360;
+  --color-line: #eadfd9;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-primary-dark);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply btn bg-primary-dark text-white hover:bg-[#744940];
+  }
+  .btn-outline {
+    @apply btn border border-primary-dark text-primary-dark hover:bg-primary-soft;
+  }
+  .btn-ghost {
+    @apply btn text-ink hover:bg-primary-soft;
+  }
+  .btn-sm {
+    @apply px-4 py-2 text-xs;
+  }
+  .card {
+    @apply rounded-2xl border border-line bg-surface;
+  }
+  .label {
+    @apply mb-1 block text-sm font-medium text-ink;
+  }
+  .input {
+    @apply w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink placeholder:text-muted focus:border-primary-dark focus:outline-none focus:ring-2 focus:ring-primary-soft;
+  }
+  .chip {
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+  .h-section {
+    @apply font-serif text-3xl font-semibold text-primary-dark sm:text-4xl;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; animation: none !important; }
+}
