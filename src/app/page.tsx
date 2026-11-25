@@ -12,7 +12,9 @@ import {
   RevealImage,
   ScrollMarquee,
 } from "@/components/media";
-import { HeroIn, HeroItem, MotionProvider, Press, Reveal, Stagger, StaggerItem } from "@/components/motion";
+import { FloatingIcons } from "@/components/FloatingIcons";
+import { HeroScrub } from "@/components/HeroScrub";
+import { MotionProvider, Press, Reveal, Stagger, StaggerItem } from "@/components/motion";
 import {
   business,
   faq,
@@ -85,83 +87,18 @@ export default function Home() {
       <SiteHeader />
       <MotionProvider>
         <main id="conteudo" tabIndex={-1} className="focus:outline-none">
-          {/* 1. Hero com vídeo de fundo */}
-          <section className="relative isolate flex min-h-[calc(100svh-8rem)] items-end overflow-hidden bg-ink text-white sm:min-h-[640px] sm:items-center">
-            <BackgroundVideo
-              src={media.videos.hero.src}
-              mobileSrc={media.videos.hero.mobileSrc}
-              poster={media.videos.hero.poster}
-              priority
-              buttonClassName="right-4 top-4"
-            />
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 -z-10 bg-gradient-to-t from-[#1f1b1b] via-[#1f1b1b]/70 to-[#1f1b1b]/20 sm:bg-gradient-to-r sm:from-[#1f1b1b]/90 sm:via-[#1f1b1b]/60 sm:to-[#1f1b1b]/10"
-            />
-            <div className="mx-auto grid w-full max-w-6xl gap-10 px-4 pb-12 pt-28 sm:py-24 lg:grid-cols-[1.25fr_1fr] lg:items-end">
-              <HeroIn>
-                <HeroItem>
-                  <a
-                    href={business.googleReviewsUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="glass chip px-3 py-1 text-sm text-white"
-                  >
-                    <span aria-hidden="true" className="mr-1 text-[#F1C27D]">★</span>
-                    {rating} · {business.reviewCount} avaliações no Google
-                  </a>
-                </HeroItem>
-                <h1 className="mt-6 max-w-3xl font-serif text-5xl font-semibold leading-[1.02] sm:text-7xl">
-                  Harmonização facial <em className="font-medium italic text-[#F0CFC6]">em Itaquera</em>
-                </h1>
-                <HeroItem>
-                  <p className="mt-5 max-w-xl text-lg text-[#EFE7E4]">
-                    Resultados naturais, seguros e discretos, com atendimento acolhedor e protocolo individual para
-                    realçar a sua beleza — sem exageros.
-                  </p>
-                </HeroItem>
-                <HeroItem className="mt-8 flex flex-wrap items-center gap-4">
-                  <Press>
-                    <Link href="/agendar?servico=avaliacao" className="btn bg-white px-8 py-4 text-base text-primary-dark hover:bg-primary-soft">
-                      Agendar avaliação
-                    </Link>
-                  </Press>
-                  <a href="#procedimentos" className="btn min-h-11 border border-white/50 text-white hover:bg-white/10">
-                    Ver procedimentos
-                  </a>
-                </HeroItem>
-                <HeroItem>
-                  <p className="mt-4 text-sm text-[#DCD1CD]">Avaliação gratuita · Parque do Carmo, Zona Leste de SP</p>
-                </HeroItem>
-              </HeroIn>
-              <HeroIn className="hidden lg:block">
-                <HeroItem from="right">
-                  <aside aria-labelledby="t-visita" className="glass rounded-3xl p-6 text-white">
-                    <p className={`${eyebrow} text-xs text-[#F0CFC6]`}>Sua primeira visita</p>
-                    <h2 id="t-visita" className="mt-1 font-serif text-3xl font-semibold">Começa por uma conversa</h2>
-                    <ul className="mt-4 space-y-3 text-sm">
-                      {[
-                        ["Avaliação gratuita", "sem compromisso"],
-                        ["Protocolo individual", "pensado para o seu rosto"],
-                        ["Retorno incluso", "em cerca de 15 dias"],
-                      ].map(([t, d]) => (
-                        <li key={t} className="flex items-start gap-3">
-                          <span aria-hidden="true" className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/20 text-xs">✓</span>
-                          <span>
-                            <span className="font-semibold">{t}</span> <span className="text-[#E5DCD9]">· {d}</span>
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </aside>
-                </HeroItem>
-              </HeroIn>
-            </div>
-            <span className="absolute bottom-3 right-4 text-[11px] text-white/70">Vídeo ilustrativo</span>
-          </section>
+          {/* 1. Hero: vídeo controlado pela rolagem */}
+          <HeroScrub
+            src={media.videos.hero.src}
+            mobileSrc={media.videos.hero.mobileSrc}
+            poster={media.videos.hero.poster}
+            ratingLabel={`${rating} · ${business.reviewCount} avaliações no Google`}
+            reviewsUrl={business.googleReviewsUrl}
+          />
 
           {/* Números */}
-          <section aria-label="Em números" className="bg-surface">
+          <section aria-label="Em números" className="relative isolate overflow-hidden bg-surface">
+            <FloatingIcons icons={[{ name: "sparkle", top: "20%", left: "3%", size: 22, depth: 1.5, rotate: 40 }, { name: "drop", top: "55%", left: "95%", size: 26, depth: 1, rotate: -20 }]} />
             <Stagger as="dl" className="mx-auto grid max-w-6xl grid-cols-2 gap-y-6 px-4 py-10 text-center md:grid-cols-4">
               {[
                 { v: <CountUp to={business.rating} decimals={1} />, l: "nota no Google", star: true },
@@ -270,7 +207,8 @@ export default function Home() {
           </section>
 
           {/* 3. Estética */}
-          <section className="py-16 sm:py-24" aria-labelledby="t-est">
+          <section className="relative isolate overflow-hidden py-16 sm:py-24" aria-labelledby="t-est">
+            <FloatingIcons />
             <div className="mx-auto max-w-6xl px-4">
               <Reveal className="flex flex-wrap items-end justify-between gap-4">
                 <div>
@@ -337,7 +275,8 @@ export default function Home() {
           </section>
 
           {/* 5. Quem atende */}
-          <section className="py-16 sm:py-24" aria-labelledby="t-quem">
+          <section className="relative isolate overflow-hidden py-16 sm:py-24" aria-labelledby="t-quem">
+            <FloatingIcons icons={[{ name: "lotus", top: "14%", left: "84%", size: 56, depth: 1, rotate: -15 }, { name: "heart", top: "70%", left: "6%", size: 30, depth: 1.4, rotate: 20 }, { name: "sparkle", top: "24%", left: "50%", size: 20, depth: 2, rotate: 45 }]} />
             <div className="mx-auto max-w-6xl px-4">
               <Reveal>
                 <p className={`${eyebrow} text-primary-dark`}>Equipe</p>
@@ -396,7 +335,8 @@ export default function Home() {
           </section>
 
           {/* 7. FAQ */}
-          <section id="duvidas" className="py-16 sm:py-24" aria-labelledby="t-faq">
+          <section id="duvidas" className="relative isolate overflow-hidden py-16 sm:py-24" aria-labelledby="t-faq">
+            <FloatingIcons icons={[{ name: "drop", top: "12%", left: "8%", size: 40, depth: 1.2, rotate: -25 }, { name: "leaf", top: "60%", left: "88%", size: 48, depth: 1.5, rotate: 35 }, { name: "bubble", top: "82%", left: "14%", size: 24, depth: 2, rotate: 0 }, { name: "sparkle", top: "28%", left: "90%", size: 22, depth: 1.8, rotate: -40 }]} />
             <div className="mx-auto max-w-3xl px-4">
               <Reveal>
                 <p className={`${eyebrow} text-primary-dark`}>Dúvidas</p>

@@ -20,6 +20,10 @@ const config: Config = {
           "0%": { transform: "scale(1.12)" },
           "100%": { transform: "scale(1)" },
         },
+        scrollhint: {
+          "0%": { transform: "translateY(-100%)" },
+          "100%": { transform: "translateY(200%)" },
+        },
       },
       animation: {
         // Uma vez só (sem loop infinito: WCAG 2.2.2)

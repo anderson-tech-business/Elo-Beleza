@@ -7,7 +7,12 @@ import { useEffect, useState } from "react";
 export function MobileCta() {
   const [show, setShow] = useState(false);
   useEffect(() => {
-    const onScroll = () => setShow(window.scrollY > 520);
+    // Aparece só depois do topo (que já tem seus próprios botões de agendar)
+    const onScroll = () => {
+      const hero = document.querySelector<HTMLElement>('section[aria-label="Apresentação"]');
+      const limit = hero ? hero.offsetTop + hero.offsetHeight - window.innerHeight * 0.5 : 520;
+      setShow(window.scrollY > limit);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);

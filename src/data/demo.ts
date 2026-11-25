@@ -491,7 +491,8 @@ export const media = {
   /** Fundos (decorativos: sem texto alternativo) */
   backgrounds: { sala: bgSala, pele: bgPele, recepcao: bgRecepcao },
   videos: {
-    hero: { src: "/media/hero.mp4", mobileSrc: "/media/hero-mobile.mp4", poster: heroPoster },
+    // Codificados com quadro-chave a cada 4 quadros para acompanhar a rolagem
+    hero: { src: "/media/hero-scrub.mp4", mobileSrc: "/media/hero-scrub-mobile.mp4", poster: heroPoster },
     cuidado: {
       src: "/media/cuidado.mp4",
       poster: cuidadoPoster,
