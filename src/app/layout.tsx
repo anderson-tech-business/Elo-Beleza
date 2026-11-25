@@ -21,7 +21,6 @@ export const metadata: Metadata = {
     locale: "pt_BR",
     siteName: business.name,
   },
-  robots: { index: false, follow: false }, // modelo demonstrativo
 };
 
 export const viewport: Viewport = { themeColor: "#FBF7F4", width: "device-width", initialScale: 1 };
