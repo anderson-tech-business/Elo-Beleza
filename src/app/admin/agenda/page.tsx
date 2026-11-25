@@ -10,8 +10,9 @@ import { freeSlots, proById, prosForService, serviceById } from "@/lib/slots";
 import { brl, d, fmtDate, fmtLong, iso, shift, toHHMM, toMin, todaySP, weekday } from "@/lib/time";
 import type { Appointment, Block, DemoState, Origin, Payment, Status } from "@/lib/types";
 import { Modal } from "@/components/Modal";
+import { useDialog } from "@/components/useDialog";
 import { originLabels } from "@/data/demo";
-import { statusStyle } from "@/lib/status";
+import { statusIcon, statusStyle } from "@/lib/status";
 
 type View = "dia" | "semana" | "mes";
 
@@ -53,7 +54,7 @@ export default function AgendaPage() {
     );
   }, [state, visiblePros, svcFilter, statusFilter]);
 
-  if (!state || !session || !cursor) return <p className="text-muted">Carregando agenda…</p>;
+  if (!state || !session || !cursor) return <p role="status" className="text-muted">Carregando agenda…</p>;
 
   const sel = selected ? state.appointments.find((a) => a.id === selected) ?? null : null;
   const blocks = state.blocks.filter((b) => visiblePros.includes(b.professionalId));
@@ -157,7 +158,9 @@ export default function AgendaPage() {
       <ul className="mt-3 flex flex-wrap gap-3 text-xs" aria-label="Legenda de status">
         {(Object.keys(statusLabels) as Status[]).map((s) => (
           <li key={s} className="flex items-center gap-1.5">
-            <span aria-hidden="true" className="h-2.5 w-2.5 rounded-full" style={{ background: statusStyle[s].dot }} />
+            <span aria-hidden="true" className="flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold" style={{ background: statusStyle[s].bg, color: statusStyle[s].fg, boxShadow: `inset 0 0 0 1.5px ${statusStyle[s].dot}` }}>
+              {statusIcon[s]}
+            </span>
             {statusLabels[s]}
           </li>
         ))}
@@ -355,6 +358,7 @@ function TimeGrid({
                         textDecoration: a.status === "cancelado" ? "line-through" : undefined,
                       }}
                     >
+                      <span aria-hidden="true" className="mr-0.5 font-bold">{statusIcon[a.status]}</span>
                       <span className="font-semibold">{a.start}</span> {patientName(a.patientId).split(" ")[0]}
                       {h > 30 && <span className="block truncate opacity-90">{svc.name}</span>}
                       <span className="sr-only">, {statusLabels[a.status]}</span>
@@ -453,17 +457,14 @@ function AppointmentPanel({
     .sort((a, b) => (a.date < b.date ? 1 : -1))
     .slice(0, 4);
 
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
+  const dialogRef = useDialog<HTMLDivElement>(onClose);
 
   const open = appt.status === "confirmado" || appt.status === "retorno";
 
   return (
     <div className="fixed inset-0 z-[55] flex justify-end bg-black/30" onClick={onClose}>
-      <aside
+      <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="panel-title"
@@ -615,7 +616,7 @@ function AppointmentPanel({
             </div>
           </form>
         )}
-      </aside>
+      </div>
     </div>
   );
 }

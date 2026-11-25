@@ -144,6 +144,7 @@ export function Press({ children, className = "inline-block" }: { children: Reac
   return (
     <m.div
       className={className}
+      tabIndex={-1} // o link interno já é focável; evita parada dupla no Tab
       whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
       whileTap={{ scale: 0.97 }}
     >
@@ -152,13 +153,14 @@ export function Press({ children, className = "inline-block" }: { children: Reac
   );
 }
 
-/** Flutuação lenta e contínua (decorativa) */
+/** Entrada lenta e única (decorativa). Sem repetição infinita: WCAG 2.2.2 */
 export function Float({ children, className }: { children: ReactNode; className?: string }) {
   return (
     <m.div
       className={className}
-      animate={{ y: [0, -8, 0] }}
-      transition={{ duration: 6, ease: "easeInOut", repeat: Infinity }}
+      initial={{ opacity: 0, scale: 0.85, y: 12 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ duration: 1.6, ease: EASE, delay: 0.3 }}
     >
       {children}
     </m.div>

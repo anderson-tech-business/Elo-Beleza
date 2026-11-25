@@ -15,7 +15,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
 
   return (
-    <main id="conteudo" className="flex min-h-[calc(100vh-40px)] items-center justify-center px-4 py-10">
+    <main id="conteudo" tabIndex={-1} className="focus:outline-none flex min-h-[calc(100vh-40px)] items-center justify-center px-4 py-10">
       <form
         className="card w-full max-w-sm p-6 sm:p-8"
         onSubmit={(e) => {
@@ -34,7 +34,7 @@ export default function LoginPage() {
             {(["admin", "pro"] as Role[]).map((r) => (
               <label
                 key={r}
-                className={`cursor-pointer rounded-xl border px-3 py-2.5 text-center text-sm font-medium has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-primary-dark ${role === r ? "border-primary-dark bg-primary-soft text-primary-dark" : "border-line"}`}
+                className={`cursor-pointer rounded-xl border px-3 py-2.5 text-center text-sm font-medium has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-primary-dark ${role === r ? "border-primary-dark bg-primary-soft text-primary-dark" : "border-field"}`}
               >
                 <input type="radio" name="role" value={r} checked={role === r} onChange={() => setRole(r)} className="sr-only" />
                 {r === "admin" ? "Administradora" : "Profissional"}

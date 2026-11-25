@@ -13,6 +13,7 @@ const config: Config = {
         ink: "var(--color-text)",
         muted: "var(--color-muted)",
         line: "var(--color-line)",
+        field: "var(--color-field)",
       },
       fontFamily: {
         serif: ["var(--font-serif)", "Georgia", "serif"],

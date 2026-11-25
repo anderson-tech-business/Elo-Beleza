@@ -9,7 +9,7 @@ export default function AgendarPage() {
   return (
     <>
       <SiteHeader showCta={false} />
-      <main id="conteudo">
+      <main id="conteudo" tabIndex={-1} className="focus:outline-none">
         <Suspense fallback={<p className="px-4 py-10 text-center text-muted">Carregando…</p>}>
           <BookingFlow />
         </Suspense>

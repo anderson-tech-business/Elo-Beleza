@@ -9,7 +9,7 @@ export default function Privacidade() {
   return (
     <>
       <SiteHeader />
-      <main id="conteudo" className="mx-auto max-w-3xl px-4 py-12">
+      <main id="conteudo" tabIndex={-1} className="focus:outline-none mx-auto max-w-3xl px-4 py-12">
         <h1 className="h-section">Política de Privacidade</h1>
         <p className="mt-2 text-sm text-muted">Texto-modelo — revisar com assessoria jurídica antes da publicação.</p>
         <div className="mt-8 space-y-6 text-ink [&_h2]:font-serif [&_h2]:text-2xl [&_h2]:font-semibold [&_p]:mt-2 [&_p]:text-muted">

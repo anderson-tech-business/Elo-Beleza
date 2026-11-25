@@ -1,17 +1,14 @@
 "use client";
 
-import { useEffect } from "react";
+import { useDialog } from "./useDialog";
 
 export function Modal({ title, onClose, children }: { title: string; onClose: () => void; children: React.ReactNode }) {
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
+  const ref = useDialog<HTMLDivElement>(onClose);
 
   return (
     <div className="fixed inset-0 z-[55] flex items-end justify-center bg-black/30 sm:items-center" onClick={onClose}>
       <div
+        ref={ref}
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"

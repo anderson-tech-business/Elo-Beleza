@@ -13,10 +13,13 @@
   /* Levemente mais escuro que a sugestão (#7A6F6C) para garantir contraste AA */
   --color-muted: #6e6360;
   --color-line: #eadfd9;
+  /* Borda de campos e controles: contraste ≥ 3:1 (WCAG 1.4.11) */
+  --color-field: #958580;
 }
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 96px;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -54,7 +57,7 @@ body {
     @apply mb-1 block text-sm font-medium text-ink;
   }
   .input {
-    @apply w-full rounded-xl border border-line bg-white px-3 py-2.5 text-sm text-ink placeholder:text-muted focus:border-primary-dark focus:outline-none focus:ring-2 focus:ring-primary-soft;
+    @apply w-full rounded-xl border border-field bg-white px-3 py-2.5 text-sm text-ink placeholder:text-muted focus:border-primary-dark focus:outline-none focus:ring-2 focus:ring-primary-soft;
   }
   .chip {
     @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;

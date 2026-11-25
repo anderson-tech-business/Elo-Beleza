@@ -62,7 +62,7 @@ export default function DashboardPage() {
       </div>
     );
   }
-  if (!data || !range) return <p className="text-muted">Calculando indicadores…</p>;
+  if (!data || !range) return <p role="status" className="text-muted">Calculando indicadores…</p>;
 
   const { kpis } = data;
   const patientName = (id: string) => state!.patients.find((p) => p.id === id)?.name ?? "—";
@@ -135,15 +135,16 @@ export default function DashboardPage() {
       </div>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
-        <Panel title="Quem mais vende" subtitle="Faturamento por profissional no período (todas)">
+        <Panel title="Quem mais vende" subtitle="Faturamento por profissional no período (todas)" data={{ head: ["Profissional", "Faturamento"], rows: data.byPro.map((r) => [r.name, brl(r.faturamento)]) }}>
           <HBar data={data.byPro} dataKey="faturamento" nameKey="name" money />
         </Panel>
-        <Panel title="Atendimentos por profissional" subtitle="Concluídos no período (todas)">
+        <Panel title="Atendimentos por profissional" subtitle="Concluídos no período (todas)" data={{ head: ["Profissional", "Atendimentos"], rows: data.byProCount.map((r) => [r.name, r.atendimentos]) }}>
           <HBar data={data.byProCount} dataKey="atendimentos" nameKey="name" />
         </Panel>
 
         <Panel
           title="Serviços mais vendidos"
+          data={{ head: ["Serviço", "Quantidade", "Faturamento"], rows: svcData.map((r) => [r.name, r.qtd, brl(r.valor)]) }}
           subtitle={svcMode === "valor" ? "Faturamento por serviço" : "Quantidade de atendimentos concluídos"}
           action={
             <div className="flex rounded-full border border-line p-0.5" role="group" aria-label="Métrica">
@@ -163,7 +164,7 @@ export default function DashboardPage() {
         >
           <HBar data={svcData} dataKey={svcMode} nameKey="name" money={svcMode === "valor"} wide />
         </Panel>
-        <Panel title="Faturamento mês a mês" subtitle="Últimos 6 meses">
+        <Panel title="Faturamento mês a mês" subtitle="Últimos 6 meses" data={{ head: ["Mês", "Faturamento"], rows: data.monthly.map((r) => [r.mes, brl(r.faturamento)]) }}>
           <ResponsiveContainer width="100%" height={240}>
             <LineChart data={data.monthly} margin={{ top: 16, right: 16, left: 8, bottom: 0 }}>
               <CartesianGrid stroke={GRID} vertical={false} />
@@ -175,7 +176,7 @@ export default function DashboardPage() {
           </ResponsiveContainer>
         </Panel>
 
-        <Panel title="Novas x recorrentes" subtitle="Pacientes atendidas por mês">
+        <Panel title="Novas x recorrentes" subtitle="Pacientes atendidas por mês" data={{ head: ["Mês", "Novas", "Recorrentes"], rows: data.monthly.map((r) => [r.mes, r.novas, r.recorrentes]) }}>
           <ResponsiveContainer width="100%" height={240}>
             <BarChart data={data.monthly} margin={{ top: 8, right: 8, left: -12, bottom: 0 }}>
               <CartesianGrid stroke={GRID} vertical={false} />
@@ -188,7 +189,7 @@ export default function DashboardPage() {
             </BarChart>
           </ResponsiveContainer>
         </Panel>
-        <Panel title="Ocupação por dia da semana" subtitle="% do expediente com atendimento marcado">
+        <Panel title="Ocupação por dia da semana" subtitle="% do expediente com atendimento marcado" data={{ head: ["Dia", "Ocupação"], rows: data.byWeekday.map((r) => [r.dia, `${r.ocupacao.toLocaleString("pt-BR")}%`]) }}>
           <ResponsiveContainer width="100%" height={240}>
             <BarChart data={data.byWeekday} margin={{ top: 20, right: 8, left: -12, bottom: 0 }}>
               <CartesianGrid stroke={GRID} vertical={false} />
@@ -238,10 +239,10 @@ export default function DashboardPage() {
           {data.pendentes.length > 12 && <p className="mt-2 text-xs text-muted">+ {data.pendentes.length - 12} outros</p>}
         </Panel>
 
-        <Panel title="Origem do agendamento" subtitle="Agendamentos no período">
+        <Panel title="Origem do agendamento" subtitle="Agendamentos no período" data={{ head: ["Origem", "Agendamentos"], rows: data.origem.map((r) => [r.name, r.qtd]) }}>
           <HBar data={data.origem} dataKey="qtd" nameKey="name" />
         </Panel>
-        <Panel title="Formas de pagamento" subtitle="Faturamento por forma de pagamento">
+        <Panel title="Formas de pagamento" subtitle="Faturamento por forma de pagamento" data={{ head: ["Forma de pagamento", "Faturamento"], rows: data.pagamento.map((r) => [r.name, brl(r.valor)]) }}>
           <HBar data={data.pagamento} dataKey="valor" nameKey="name" money wide />
         </Panel>
       </div>
@@ -265,12 +266,15 @@ function Panel({
   action,
   children,
   className = "",
+  data,
 }: {
   title: string;
   subtitle?: string;
   action?: React.ReactNode;
   children: React.ReactNode;
   className?: string;
+  /** Tabela equivalente ao gráfico, lida por leitores de tela (WCAG 1.1.1) */
+  data?: { head: string[]; rows: (string | number)[][] };
 }) {
   return (
     <section className={`card p-4 ${className}`} aria-label={title}>
@@ -281,7 +285,24 @@ function Panel({
         </div>
         {action}
       </div>
-      {children}
+      {data ? (
+        <>
+          <div aria-hidden="true">{children}</div>
+          <table className="sr-only">
+            <caption>{title}</caption>
+            <thead>
+              <tr>{data.head.map((h) => <th key={h} scope="col">{h}</th>)}</tr>
+            </thead>
+            <tbody>
+              {data.rows.map((r, i) => (
+                <tr key={i}>{r.map((c, j) => (j === 0 ? <th key={j} scope="row">{c}</th> : <td key={j}>{c}</td>))}</tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      ) : (
+        children
+      )}
     </section>
   );
 }

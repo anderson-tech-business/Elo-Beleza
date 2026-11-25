@@ -73,7 +73,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </header>
-      <main id="conteudo" className="mx-auto max-w-7xl px-4 py-6">
+      <main id="conteudo" tabIndex={-1} className="focus:outline-none mx-auto max-w-7xl px-4 py-6">
         {children}
       </main>
     </div>

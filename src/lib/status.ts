@@ -7,3 +7,12 @@ export const statusStyle: Record<Status, { bg: string; fg: string; dot: string }
   faltou: { bg: "#FBE4E1", fg: "#8E2B23", dot: "#C0453A" },
   retorno: { bg: "#EFE7F6", fg: "#563A73", dot: "#7A57A0" },
 };
+
+/** Símbolo exibido junto da cor, para não depender só dela (WCAG 1.4.1) */
+export const statusIcon: Record<Status, string> = {
+  confirmado: "•",
+  concluido: "✓",
+  cancelado: "✕",
+  faltou: "!",
+  retorno: "↻",
+};

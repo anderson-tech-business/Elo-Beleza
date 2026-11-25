@@ -9,7 +9,7 @@ export default function ConfirmadoPage() {
   return (
     <>
       <SiteHeader showCta={false} />
-      <main id="conteudo" className="mx-auto max-w-2xl px-4 py-10">
+      <main id="conteudo" tabIndex={-1} className="focus:outline-none mx-auto max-w-2xl px-4 py-10">
         <Suspense fallback={<p className="text-muted">Carregando…</p>}>
           <Confirmation />
         </Suspense>

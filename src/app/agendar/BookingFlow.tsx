@@ -205,7 +205,7 @@ export function BookingFlow() {
                   setTime(null);
                   go(1);
                 }}
-                className={`card p-5 text-left transition-colors hover:border-primary-dark ${category === c.id ? "border-primary-dark ring-2 ring-primary-soft" : ""}`}
+                className={`card border-field p-5 text-left transition-colors hover:border-primary-dark ${category === c.id ? "border-primary-dark ring-2 ring-primary-soft" : ""}`}
               >
                 <span className="flex items-center justify-between gap-4">
                   <span>
@@ -247,7 +247,7 @@ export function BookingFlow() {
                     setServiceId(s.id);
                     go(2);
                   }}
-                  className={`card flex items-center justify-between gap-4 p-5 text-left transition-colors hover:border-primary-dark ${serviceId === s.id ? "border-primary-dark ring-2 ring-primary-soft" : ""}`}
+                  className={`card border-field flex items-center justify-between gap-4 p-5 text-left transition-colors hover:border-primary-dark ${serviceId === s.id ? "border-primary-dark ring-2 ring-primary-soft" : ""}`}
                 >
                   <span>
                     <span className="block font-semibold text-ink">{s.name}</span>
@@ -285,7 +285,7 @@ export function BookingFlow() {
                   setProChoice(p.id);
                   go(3);
                 }}
-                className={`card flex items-center gap-4 p-4 text-left transition-colors hover:border-primary-dark ${proChoice === p.id ? "border-primary-dark ring-2 ring-primary-soft" : ""}`}
+                className={`card border-field flex items-center gap-4 p-4 text-left transition-colors hover:border-primary-dark ${proChoice === p.id ? "border-primary-dark ring-2 ring-primary-soft" : ""}`}
               >
                 <span aria-hidden="true" className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary-soft font-serif text-lg text-primary-dark">
                   {p.id === "any" ? "✦" : p.name.replace("Dra. ", "").split(" ").map((w) => w[0]).join("")}
@@ -310,9 +310,9 @@ export function BookingFlow() {
           <h1 ref={headingRef} tabIndex={-1} className="outline-none font-serif text-3xl font-semibold text-primary-dark">
             Escolha data e horário
           </h1>
-          {errors.time && <p className="mt-2 text-sm font-medium text-[#A2342B]">{errors.time}</p>}
+          {errors.time && <p role="alert" className="mt-2 text-sm font-medium text-[#A2342B]">{errors.time}</p>}
           {!state || !month || !range ? (
-            <p className="mt-6 text-muted">Carregando agenda…</p>
+            <p role="status" className="mt-6 text-muted">Carregando agenda…</p>
           ) : (
             <div className="mt-6 grid gap-4 md:grid-cols-[1fr_1fr]">
               <MonthCalendar
@@ -340,7 +340,7 @@ export function BookingFlow() {
                           aria-pressed={time === s.time}
                           onClick={() => setTime(s.time)}
                           className={`rounded-xl border px-2 py-2.5 text-sm font-medium transition-colors ${
-                            time === s.time ? "border-primary-dark bg-primary-dark text-white" : "border-line bg-white hover:border-primary-dark"
+                            time === s.time ? "border-primary-dark bg-primary-dark text-white" : "border-field bg-white hover:border-primary-dark"
                           }`}
                         >
                           {s.time}
@@ -401,7 +401,7 @@ export function BookingFlow() {
                     <div className="flex gap-4 text-sm">
                       {(["nao", "sim"] as const).map((v) => (
                         <label key={v} className="flex items-center gap-2">
-                          <input id={v === "nao" ? "f-alergia" : undefined} type="radio" name="alergia" className="h-4 w-4 accent-[var(--color-primary-dark)]" checked={hasAllergy === v} onChange={() => setHasAllergy(v)} />
+                          <input id={v === "nao" ? "f-alergia" : undefined} type="radio" name="alergia" aria-invalid={!!errors.alergia} aria-describedby={errors.alergia ? "e-alergia" : undefined} className="h-4 w-4 accent-[var(--color-primary-dark)]" checked={hasAllergy === v} onChange={() => setHasAllergy(v)} />
                           {v === "sim" ? "Sim" : "Não"}
                         </label>
                       ))}
@@ -412,18 +412,18 @@ export function BookingFlow() {
                         <input id="f-alergias" className="input" value={anamnese.alergias} onChange={(e) => setAnamnese({ ...anamnese, alergias: e.target.value })} />
                       </div>
                     )}
-                    {errors.alergia && <p className="mt-1 text-sm text-[#A2342B]">{errors.alergia}</p>}
+                    {errors.alergia && <p id="e-alergia" className="mt-1 text-sm text-[#A2342B]">{errors.alergia}</p>}
                   </fieldset>
                 </div>
                 <label className="mt-5 flex items-start gap-3 rounded-xl bg-primary-soft/60 p-3 text-sm">
-                  <input id="f-consent" type="checkbox" className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--color-primary-dark)]" checked={consent} onChange={(e) => setConsent(e.target.checked)} aria-invalid={!!errors.consent} />
+                  <input id="f-consent" type="checkbox" className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--color-primary-dark)]" checked={consent} onChange={(e) => setConsent(e.target.checked)} aria-invalid={!!errors.consent} aria-describedby={errors.consent ? "e-consent" : undefined} />
                   <span>
                     Autorizo o uso dos meus dados de saúde informados acima exclusivamente para a minha avaliação e
                     atendimento, conforme a LGPD e a{" "}
                     <a href="/privacidade" target="_blank" className="text-primary-dark underline">Política de Privacidade</a>.
                   </span>
                 </label>
-                {errors.consent && <p className="mt-1 text-sm text-[#A2342B]">{errors.consent}</p>}
+                {errors.consent && <p id="e-consent" className="mt-1 text-sm text-[#A2342B]">{errors.consent}</p>}
               </fieldset>
             )}
 
@@ -434,7 +434,7 @@ export function BookingFlow() {
 
           {Object.keys(errors).length > 0 && (
             <p role="alert" className="mt-4 rounded-xl bg-[#FBE9E7] px-4 py-3 text-sm text-[#A2342B]">
-              Confira os campos destacados.
+              {Object.keys(errors).length === 1 ? "Confira o campo destacado." : `Confira os ${Object.keys(errors).length} campos destacados.`}
             </p>
           )}
 

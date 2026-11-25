@@ -71,7 +71,7 @@ export default function Home() {
       <JsonLd />
       <SiteHeader />
       <MotionProvider>
-      <main id="conteudo">
+      <main id="conteudo" tabIndex={-1} className="focus:outline-none">
         {/* 1. Hero */}
         <section className="relative overflow-hidden">
           <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,var(--color-primary-soft),transparent_60%)]" />
