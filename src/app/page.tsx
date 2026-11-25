@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
+import { MobileCta } from "@/components/MobileCta";
 import {
   business,
   faq,
@@ -72,7 +73,8 @@ export default function Home() {
         {/* 1. Hero */}
         <section className="relative overflow-hidden">
           <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,var(--color-primary-soft),transparent_60%)]" />
-          <div className="mx-auto max-w-6xl px-4 pb-16 pt-12 sm:pb-24 sm:pt-20">
+          <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 pb-16 pt-12 sm:pb-24 sm:pt-20 lg:grid-cols-[1.25fr_1fr]">
+            <div>
             <a
               href={business.googleReviewsUrl}
               target="_blank"
@@ -90,11 +92,34 @@ export default function Home() {
               sua beleza — sem exageros.
             </p>
             <div className="mt-8">
-              <Link href="/agendar" className="btn-primary px-8 py-4 text-base">
+              <Link href="/agendar?servico=avaliacao" className="btn-primary px-8 py-4 text-base">
                 Agendar avaliação
               </Link>
               <p className="mt-3 text-sm text-muted">Avaliação gratuita · Parque do Carmo, Zona Leste de SP</p>
             </div>
+            </div>
+            <aside aria-labelledby="t-visita" className="card relative p-6 shadow-[0_20px_60px_-30px_rgba(140,90,80,0.45)] sm:p-8">
+              <p className="text-xs font-semibold uppercase tracking-widest text-primary-dark">Sua primeira visita</p>
+              <h2 id="t-visita" className="mt-2 font-serif text-3xl font-semibold text-ink">Começa por uma conversa</h2>
+              <ul className="mt-5 space-y-4">
+                {[
+                  ["Avaliação gratuita", "Análise facial e histórico de saúde, sem compromisso."],
+                  ["Protocolo individual", "Indicação pensada para o seu rosto, sem exageros."],
+                  ["Retorno incluso", "Revisão do resultado da toxina em cerca de 15 dias."],
+                ].map(([t, d]) => (
+                  <li key={t} className="flex gap-3">
+                    <span aria-hidden="true" className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary-soft text-sm text-primary-dark">✓</span>
+                    <span>
+                      <span className="block font-semibold text-ink">{t}</span>
+                      <span className="block text-sm text-muted">{d}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-6 border-t border-line pt-4 text-sm text-muted">
+                <span className="font-medium text-ink">{business.street}</span> · {business.neighborhood}
+              </p>
+            </aside>
           </div>
         </section>
 
@@ -119,13 +144,20 @@ export default function Home() {
                 </article>
               ))}
             </div>
+            <div className="mt-8 flex flex-col items-start gap-3 rounded-2xl bg-primary-soft/60 p-5 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-ink">
+                <span className="font-semibold">Não sabe o que escolher?</span>{" "}
+                <span className="text-muted">A avaliação gratuita define o melhor caminho para você.</span>
+              </p>
+              <Link href="/agendar?servico=avaliacao" className="btn-primary shrink-0">Agendar avaliação</Link>
+            </div>
           </div>
         </section>
 
         {/* 3. Estética */}
         <section className="py-16 sm:py-20" aria-labelledby="t-est">
           <div className="mx-auto max-w-6xl px-4">
-            <p className="text-sm font-semibold uppercase tracking-widest text-primary-dark">Procedimentos</p>
+            <p className="text-sm font-semibold uppercase tracking-widest text-primary-dark">Cuidados com a pele</p>
             <h2 id="t-est" className="h-section mt-2">Estética e sobrancelhas</h2>
             <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {estetica.map((s) => (
@@ -142,6 +174,13 @@ export default function Home() {
                       <dd className="font-semibold text-primary-dark">{brl(s.price)}</dd>
                     </div>
                   </dl>
+                  <Link
+                    href={`/agendar?servico=${s.id}`}
+                    className="btn-outline btn-sm mt-4 min-h-11 w-full"
+                    aria-label={`Agendar ${s.name}`}
+                  >
+                    Agendar
+                  </Link>
                 </article>
               ))}
             </div>
@@ -152,7 +191,8 @@ export default function Home() {
         {/* 4. Como funciona */}
         <section className="bg-primary-soft/60 py-16 sm:py-20" aria-labelledby="t-como">
           <div className="mx-auto max-w-6xl px-4">
-            <h2 id="t-como" className="h-section">Como funciona</h2>
+            <p className="text-sm font-semibold uppercase tracking-widest text-primary-dark">Passo a passo</p>
+            <h2 id="t-como" className="h-section mt-2">Como funciona</h2>
             <ol className="mt-10 grid gap-6 md:grid-cols-3">
               {passos.map((p) => (
                 <li key={p.n} className="card p-6">
@@ -170,7 +210,8 @@ export default function Home() {
         {/* 5. Quem atende */}
         <section className="py-16 sm:py-20" aria-labelledby="t-quem">
           <div className="mx-auto max-w-6xl px-4">
-            <h2 id="t-quem" className="h-section">Quem atende</h2>
+            <p className="text-sm font-semibold uppercase tracking-widest text-primary-dark">Equipe</p>
+            <h2 id="t-quem" className="h-section mt-2">Quem atende</h2>
             <article className="card mt-10 flex flex-col gap-6 p-6 sm:flex-row sm:items-center sm:p-8">
               <div
                 role="img"
@@ -195,7 +236,10 @@ export default function Home() {
         <section className="bg-surface py-16 sm:py-20" aria-labelledby="t-dep">
           <div className="mx-auto max-w-6xl px-4">
             <div className="flex flex-wrap items-end justify-between gap-4">
-              <h2 id="t-dep" className="h-section">O que dizem as pacientes</h2>
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-widest text-primary-dark">Depoimentos</p>
+                <h2 id="t-dep" className="h-section mt-2">O que dizem as pacientes</h2>
+              </div>
               <a href={business.googleReviewsUrl} target="_blank" rel="noopener noreferrer" className="btn-outline">
                 Ver avaliações no Google
               </a>
@@ -219,7 +263,8 @@ export default function Home() {
         {/* 7. FAQ */}
         <section id="duvidas" className="py-16 sm:py-20" aria-labelledby="t-faq">
           <div className="mx-auto max-w-3xl px-4">
-            <h2 id="t-faq" className="h-section">Perguntas frequentes</h2>
+            <p className="text-sm font-semibold uppercase tracking-widest text-primary-dark">Dúvidas</p>
+            <h2 id="t-faq" className="h-section mt-2">Perguntas frequentes</h2>
             <div className="mt-8 divide-y divide-line rounded-2xl border border-line bg-surface">
               {faq.map((f) => (
                 <details key={f.q} className="group px-5 py-1">
@@ -238,7 +283,8 @@ export default function Home() {
         <section id="localizacao" className="bg-surface py-16 sm:py-20" aria-labelledby="t-loc">
           <div className="mx-auto grid max-w-6xl gap-8 px-4 md:grid-cols-[1fr_1.4fr]">
             <div>
-              <h2 id="t-loc" className="h-section">Localização</h2>
+              <p className="text-sm font-semibold uppercase tracking-widest text-primary-dark">Onde estamos</p>
+            <h2 id="t-loc" className="h-section mt-2">Localização</h2>
               <address className="mt-6 not-italic text-ink">{business.fullAddress}</address>
               <h3 className="mt-6 font-semibold">Horário de atendimento</h3>
               <dl className="mt-2 space-y-1 text-sm">
@@ -250,13 +296,21 @@ export default function Home() {
                 ))}
               </dl>
               <p className="mt-2 text-xs text-muted">Horário ilustrativo.</p>
-              <Link href="/agendar" className="btn-primary mt-6">Agendar avaliação</Link>
+              <Link href="/agendar?servico=avaliacao" className="btn-primary mt-6">Agendar avaliação</Link>
             </div>
-            <div className="overflow-hidden rounded-2xl border border-line">
+            <div className="relative overflow-hidden rounded-2xl border border-line bg-primary-soft/60">
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(business.fullAddress)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-outline btn-sm absolute bottom-3 right-3 z-10 min-h-11 bg-white"
+              >
+                Abrir no Google Maps
+              </a>
               <iframe
                 title={`Mapa: ${business.fullAddress}`}
                 src={business.mapsEmbedUrl}
-                className="h-80 w-full md:h-full md:min-h-[360px]"
+                className="relative h-80 w-full md:h-full md:min-h-[360px]"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               />
@@ -265,6 +319,7 @@ export default function Home() {
         </section>
       </main>
       <SiteFooter />
+      <MobileCta />
     </>
   );
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { BookingFlow } from "./BookingFlow";
 
@@ -9,7 +10,9 @@ export default function AgendarPage() {
     <>
       <SiteHeader showCta={false} />
       <main id="conteudo">
-        <BookingFlow />
+        <Suspense fallback={<p className="px-4 py-10 text-center text-muted">Carregando…</p>}>
+          <BookingFlow />
+        </Suspense>
       </main>
     </>
   );

@@ -7,11 +7,11 @@ export function SiteHeader({ showCta = true }: { showCta?: boolean }) {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <Logo />
         <nav aria-label="Principal" className="flex items-center gap-1 text-sm">
-          <a href="/#procedimentos" className="btn-ghost btn-sm hidden sm:inline-flex">Procedimentos</a>
-          <a href="/#duvidas" className="btn-ghost btn-sm hidden sm:inline-flex">Dúvidas</a>
-          <a href="/#localizacao" className="btn-ghost btn-sm hidden sm:inline-flex">Localização</a>
+          <a href="/#procedimentos" className="btn-ghost btn-sm hidden min-h-11 sm:inline-flex">Procedimentos</a>
+          <a href="/#duvidas" className="btn-ghost btn-sm hidden min-h-11 sm:inline-flex">Dúvidas</a>
+          <a href="/#localizacao" className="btn-ghost btn-sm hidden min-h-11 sm:inline-flex">Localização</a>
           {showCta && (
-            <Link href="/agendar" className="btn-primary btn-sm">
+            <Link href="/agendar?servico=avaliacao" className="btn-primary btn-sm min-h-11">
               Agendar avaliação
             </Link>
           )}

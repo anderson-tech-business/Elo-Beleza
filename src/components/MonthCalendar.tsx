@@ -2,7 +2,7 @@
 
 import { addMonths, endOfMonth, format, startOfMonth } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { d, iso, shift } from "@/lib/time";
+import { d, iso, shift, todaySP } from "@/lib/time";
 
 interface Props {
   month: string; // qualquer data do mês exibido (yyyy-MM-dd)
@@ -25,6 +25,7 @@ export function MonthCalendar({ month, onMonthChange, selected, onSelect, isEnab
   for (let cur = first; cur <= last; cur = shift(cur, 1)) days.push(cur);
 
   const ym = (s: string) => s.slice(0, 7);
+  const today = todaySP();
   const canPrev = !minMonth || ym(first) > ym(minMonth);
   const canNext = !maxMonth || ym(first) < ym(maxMonth);
 
@@ -33,19 +34,22 @@ export function MonthCalendar({ month, onMonthChange, selected, onSelect, isEnab
       <div className="mb-3 flex items-center justify-between">
         <button
           type="button"
-          className="btn-ghost btn-sm"
+          className="btn-ghost h-11 w-11 p-0 text-xl"
           onClick={() => onMonthChange(iso(addMonths(d(first), -1)))}
           disabled={!canPrev}
           aria-label="Mês anterior"
         >
           ‹
         </button>
-        <p className="font-semibold capitalize" aria-live="polite">
-          {format(d(first), "MMMM 'de' yyyy", { locale: ptBR })}
+        <p className="font-semibold" aria-live="polite">
+          {(() => {
+            const t = format(d(first), "MMMM 'de' yyyy", { locale: ptBR });
+            return t.charAt(0).toUpperCase() + t.slice(1);
+          })()}
         </p>
         <button
           type="button"
-          className="btn-ghost btn-sm"
+          className="btn-ghost h-11 w-11 p-0 text-xl"
           onClick={() => onMonthChange(iso(addMonths(d(first), 1)))}
           disabled={!canNext}
           aria-label="Próximo mês"
@@ -63,6 +67,7 @@ export function MonthCalendar({ month, onMonthChange, selected, onSelect, isEnab
           if (!day) return <span key={`e${i}`} />;
           const enabled = isEnabled(day);
           const isSel = day === selected;
+          const isToday = day === today;
           return (
             <button
               key={day}
@@ -75,9 +80,9 @@ export function MonthCalendar({ month, onMonthChange, selected, onSelect, isEnab
                 isSel
                   ? "bg-primary-dark font-semibold text-white"
                   : enabled
-                    ? "font-medium text-ink hover:bg-primary-soft"
-                    : "cursor-not-allowed text-[#b9aeaa] line-through decoration-transparent"
-              }`}
+                    ? "bg-primary-soft/50 font-semibold text-ink hover:bg-primary-soft"
+                    : "cursor-not-allowed text-[#b9aeaa]"
+              } ${isToday && !isSel ? "ring-1 ring-inset ring-primary-dark" : ""}`}
             >
               {Number(day.slice(8))}
             </button>

@@ -29,7 +29,7 @@ export function SiteFooter() {
           </p>
         </div>
       </div>
-      <p className="border-t border-line px-4 py-4 text-center text-xs text-muted">
+      <p className="border-t border-line px-4 pb-24 pt-4 text-center text-xs text-muted sm:pb-4">
         © {new Date().getFullYear()} {business.name}. Os resultados variam de pessoa para pessoa.
       </p>
     </footer>

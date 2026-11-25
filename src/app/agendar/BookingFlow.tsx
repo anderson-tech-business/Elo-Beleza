@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { MonthCalendar } from "@/components/MonthCalendar";
 import { services } from "@/data/demo";
@@ -8,6 +8,8 @@ import { addAppointment, upsertPatient, useDemoState } from "@/lib/store";
 import { bookingRange, freeSlots, proById, prosForService, serviceById } from "@/lib/slots";
 import { brl, fmtLong, todaySP } from "@/lib/time";
 import type { Anamnese, Category } from "@/lib/types";
+
+const cap = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
 
 const steps = ["Categoria", "Serviço", "Profissional", "Data e horário", "Seus dados"];
 
@@ -34,6 +36,7 @@ function ageOn(birth: string, today: string) {
 
 export function BookingFlow() {
   const router = useRouter();
+  const params = useSearchParams();
   const state = useDemoState();
   const [step, setStep] = useState(0);
   const [category, setCategory] = useState<Category | null>(null);
@@ -51,6 +54,15 @@ export function BookingFlow() {
   const headingRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => setMonth(todaySP()), []);
+  // Link direto da landing (?servico=limpeza) pula as etapas já respondidas
+  useEffect(() => {
+    const pre = services.find((s) => s.id === params.get("servico") && s.bookable);
+    if (!pre) return;
+    setCategory(pre.category);
+    setServiceId(pre.id);
+    setStep(2);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   useEffect(() => {
     headingRef.current?.focus();
   }, [step]);
@@ -176,7 +188,7 @@ export function BookingFlow() {
       {/* Passo 1 */}
       {step === 0 && (
         <section>
-          <h1 ref={headingRef} tabIndex={-1} className="font-serif text-3xl font-semibold text-primary-dark">
+          <h1 ref={headingRef} tabIndex={-1} className="outline-none font-serif text-3xl font-semibold text-primary-dark">
             O que você procura?
           </h1>
           <div className="mt-6 grid gap-3">
@@ -195,8 +207,13 @@ export function BookingFlow() {
                 }}
                 className={`card p-5 text-left transition-colors hover:border-primary-dark ${category === c.id ? "border-primary-dark ring-2 ring-primary-soft" : ""}`}
               >
-                <span className="block font-serif text-2xl font-semibold text-ink">{c.title}</span>
-                <span className="mt-1 block text-sm text-muted">{c.text}</span>
+                <span className="flex items-center justify-between gap-4">
+                  <span>
+                    <span className="block font-serif text-2xl font-semibold text-ink">{c.title}</span>
+                    <span className="mt-1 block text-sm text-muted">{c.text}</span>
+                  </span>
+                  <span aria-hidden="true" className="text-2xl text-primary-dark">›</span>
+                </span>
               </button>
             ))}
           </div>
@@ -206,7 +223,7 @@ export function BookingFlow() {
       {/* Passo 2 */}
       {step === 1 && (
         <section>
-          <h1 ref={headingRef} tabIndex={-1} className="font-serif text-3xl font-semibold text-primary-dark">
+          <h1 ref={headingRef} tabIndex={-1} className="outline-none font-serif text-3xl font-semibold text-primary-dark">
             Escolha o serviço
           </h1>
           {category === "harmonizacao" && (
@@ -252,7 +269,7 @@ export function BookingFlow() {
       {/* Passo 3 */}
       {step === 2 && (
         <section>
-          <h1 ref={headingRef} tabIndex={-1} className="font-serif text-3xl font-semibold text-primary-dark">
+          <h1 ref={headingRef} tabIndex={-1} className="outline-none font-serif text-3xl font-semibold text-primary-dark">
             Com quem?
           </h1>
           <div className="mt-6 grid gap-3">
@@ -273,10 +290,11 @@ export function BookingFlow() {
                 <span aria-hidden="true" className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary-soft font-serif text-lg text-primary-dark">
                   {p.id === "any" ? "✦" : p.name.replace("Dra. ", "").split(" ").map((w) => w[0]).join("")}
                 </span>
-                <span>
+                <span className="flex-1">
                   <span className="block font-semibold text-ink">{p.name}</span>
                   <span className="block text-sm text-muted">{p.role}</span>
                 </span>
+                <span aria-hidden="true" className="text-2xl text-primary-dark">›</span>
               </button>
             ))}
           </div>
@@ -289,7 +307,7 @@ export function BookingFlow() {
       {/* Passo 4 */}
       {step === 3 && (
         <section>
-          <h1 ref={headingRef} tabIndex={-1} className="font-serif text-3xl font-semibold text-primary-dark">
+          <h1 ref={headingRef} tabIndex={-1} className="outline-none font-serif text-3xl font-semibold text-primary-dark">
             Escolha data e horário
           </h1>
           {errors.time && <p className="mt-2 text-sm font-medium text-[#A2342B]">{errors.time}</p>}
@@ -313,7 +331,7 @@ export function BookingFlow() {
               <div id="slots" className="scroll-mt-16">
                 {date ? (
                   <>
-                    <p className="text-sm font-medium capitalize">{fmtLong(date)}</p>
+                    <p className="text-sm font-medium">{cap(fmtLong(date))}</p>
                     <div className="mt-3 grid grid-cols-3 gap-2" role="group" aria-label="Horários disponíveis">
                       {slots.map((s) => (
                         <button
@@ -337,12 +355,12 @@ export function BookingFlow() {
               </div>
             </div>
           )}
-          <div className="mt-6 flex items-center justify-between">
+          <div className="sticky bottom-0 -mx-4 mt-6 flex items-center justify-between border-t border-line bg-bg/95 px-4 py-3 backdrop-blur md:static md:mx-0 md:border-0 md:bg-transparent md:px-0">
             <button type="button" className="btn-ghost" onClick={() => go(2)}>
               ← Voltar
             </button>
-            <button type="button" className="btn-primary" disabled={!date || !time} onClick={() => go(4)}>
-              Continuar
+            <button type="button" className="btn-primary min-h-12" disabled={!date || !time} onClick={() => go(4)}>
+              {time ? `Continuar · ${time}` : "Escolha um horário"}
             </button>
           </div>
         </section>
@@ -351,7 +369,7 @@ export function BookingFlow() {
       {/* Passo 5 */}
       {step === 4 && (
         <form onSubmit={submit} noValidate>
-          <h1 ref={headingRef} tabIndex={-1} className="font-serif text-3xl font-semibold text-primary-dark">
+          <h1 ref={headingRef} tabIndex={-1} className="outline-none font-serif text-3xl font-semibold text-primary-dark">
             Seus dados
           </h1>
           <div className="mt-6 grid gap-4">
