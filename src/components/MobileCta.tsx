@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { ScrollTrigger } from "@/components/scroll/gsap";
 
 /** Barra fixa de agendamento no celular, aparece depois do topo da página */
 export function MobileCta() {
@@ -11,7 +12,9 @@ export function MobileCta() {
     const onScroll = () => {
       const hero = document.querySelector<HTMLElement>('section[aria-label="Apresentação"]');
       const limit = hero ? hero.offsetTop + hero.offsetHeight - window.innerHeight * 0.5 : 520;
-      setShow(window.scrollY > limit);
+      // Some enquanto uma seção está presa na tela (para não cobrir a cena)
+      const pinned = ScrollTrigger.getAll().some((st) => st.pin && st.isActive);
+      setShow(window.scrollY > limit && !pinned);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
