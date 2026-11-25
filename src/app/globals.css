@@ -2,19 +2,41 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Identidade visual provisória — troque aqui quando a marca chegar */
+/* ==========================================================================
+   TOKENS — identidade visual provisória (trocar aqui quando a marca chegar)
+   Cores em canais RGB para o Tailwind aplicar transparência (ex.: bg-bg/95).
+   Documentação: docs/DESIGN_SYSTEM.md
+   ========================================================================== */
 :root {
-  --color-primary: #b9847a;
-  --color-primary-dark: #8c5a50;
-  --color-primary-soft: #f3e6e1;
-  --color-bg: #fbf7f4;
-  --color-surface: #ffffff;
-  --color-text: #2b2626;
-  /* Levemente mais escuro que a sugestão (#7A6F6C) para garantir contraste AA */
-  --color-muted: #6e6360;
-  --color-line: #eadfd9;
-  /* Borda de campos e controles: contraste ≥ 3:1 (WCAG 1.4.11) */
-  --color-field: #958580;
+  /* Marca */
+  --color-primary: 185 132 122;       /* #B9847A rosé terroso — destaques, ícones */
+  --color-primary-dark: 140 90 80;    /* #8C5A50 botões, títulos, links */
+  --color-primary-deep: 116 73 64;    /* #744940 hover do botão primário */
+  --color-primary-soft: 243 230 225;  /* #F3E6E1 fundos suaves, chips */
+  --color-blush: 240 207 198;         /* #F0CFC6 destaque sobre fundos escuros */
+
+  /* Superfícies e texto (claro) */
+  --color-bg: 251 247 244;            /* #FBF7F4 fundo da página */
+  --color-surface: 255 255 255;       /* #FFFFFF cartões */
+  --color-sunken: 246 241 238;        /* #F6F1EE áreas rebaixadas, hover de linha */
+  --color-text: 43 38 38;             /* #2B2626 texto principal */
+  --color-muted: 110 99 96;           /* #6E6360 texto secundário (AA ≥ 4.5:1) */
+  --color-line: 234 223 217;          /* #EADFD9 divisórias decorativas */
+  --color-field: 149 133 128;         /* #958580 borda de campos (≥ 3:1) */
+
+  /* Superfícies e texto (escuro: vídeos, fotos, seções noturnas) */
+  --color-night: 31 27 27;            /* #1F1B1B camadas sobre fotos e vídeos */
+  --color-on-dark: 239 231 228;       /* #EFE7E4 texto corrido sobre escuro */
+  --color-on-dark-muted: 217 207 203; /* #D9CFCB texto secundário sobre escuro */
+  --color-on-dark-subtle: 191 179 175;/* #BFB3AF legendas sobre escuro */
+
+  /* Semânticas */
+  --color-danger: 162 52 43;          /* #A2342B erros */
+  --color-danger-soft: 251 233 231;   /* #FBE9E7 fundo de alerta de erro */
+  --color-success: 45 90 62;          /* #2D5A3E confirmações */
+  --color-success-soft: 233 241 236;  /* #E9F1EC fundo de confirmação */
+  --color-gold: 168 116 42;           /* #A8742A estrela de avaliação (claro) */
+  --color-gold-light: 241 194 125;    /* #F1C27D estrela de avaliação (escuro) */
 }
 
 html {
@@ -24,8 +46,8 @@ html {
 }
 
 body {
-  background: var(--color-bg);
-  color: var(--color-text);
+  background: rgb(var(--color-bg));
+  color: rgb(var(--color-text));
 }
 
 /* Grão de filme bem leve sobre a página: tira o aspecto "digital chapado" */
@@ -42,14 +64,14 @@ body::after {
 
 /* Cartão de vidro sobre fotos e vídeos */
 .glass {
-  background: rgba(43, 38, 38, 0.38);
+  background: rgb(var(--color-text) / 0.38);
   border: 1px solid rgba(255, 255, 255, 0.22);
   -webkit-backdrop-filter: blur(14px) saturate(120%);
   backdrop-filter: blur(14px) saturate(120%);
 }
 
 :focus-visible {
-  outline: 3px solid var(--color-primary-dark);
+  outline: 3px solid rgb(var(--color-primary-dark));
   outline-offset: 2px;
   border-radius: 6px;
 }
@@ -59,7 +81,7 @@ body::after {
     @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50;
   }
   .btn-primary {
-    @apply btn bg-primary-dark text-white hover:bg-[#744940];
+    @apply btn bg-primary-dark text-white hover:bg-primary-deep;
   }
   .btn-outline {
     @apply btn border border-primary-dark text-primary-dark hover:bg-primary-soft;
@@ -70,8 +92,22 @@ body::after {
   .btn-sm {
     @apply px-4 py-2 text-xs;
   }
+  /* Botões sobre fundo escuro (vídeo, foto, seção noturna) */
+  .btn-light {
+    @apply btn bg-white text-primary-dark hover:bg-primary-soft;
+  }
+  .btn-outline-light {
+    @apply btn min-h-11 border border-white/50 text-white hover:bg-white/10;
+  }
+  .btn-lg {
+    @apply px-8 py-4 text-base;
+  }
+  /* Tipografia */
+  .eyebrow {
+    @apply text-sm font-semibold uppercase tracking-[0.2em];
+  }
   .card {
-    @apply rounded-2xl border border-line bg-surface;
+    @apply rounded-card border border-line bg-surface;
   }
   .label {
     @apply mb-1 block text-sm font-medium text-ink;
@@ -82,8 +118,9 @@ body::after {
   .chip {
     @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
   }
+  /* Título de seção: um só tamanho no site todo. Sobre escuro, some text-white */
   .h-section {
-    @apply font-serif text-3xl font-semibold text-primary-dark sm:text-4xl;
+    @apply font-serif text-4xl font-semibold leading-tight text-primary-dark sm:text-5xl;
   }
 }
 

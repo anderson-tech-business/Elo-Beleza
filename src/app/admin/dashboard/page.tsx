@@ -255,7 +255,7 @@ function Kpi({ label, value, hint, small }: { label: string; value: string; hint
     <div className={`card ${small ? "p-3" : "p-4"}`}>
       <p className="text-xs text-muted">{label}</p>
       <p className={`mt-1 font-semibold tabular-nums text-ink ${small ? "text-lg" : "text-2xl"}`}>{value}</p>
-      {hint && <p className="text-[11px] text-muted">{hint}</p>}
+      {hint && <p className="text-2xs text-muted">{hint}</p>}
     </div>
   );
 }

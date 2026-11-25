@@ -8,6 +8,7 @@
 import Image, { type StaticImageData } from "next/image";
 import { animate, m, useInView, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useEffect, useRef, useState } from "react";
+import { duration, ease } from "@/lib/motion-tokens";
 
 /* ----------------------------- Imagem com parallax ----------------------------- */
 export function ParallaxImage({
@@ -56,7 +57,7 @@ export function RevealImage({
       initial={{ clipPath: "inset(12% 12% 12% 12% round 24px)", opacity: 0.4 }}
       whileInView={{ clipPath: "inset(0% 0% 0% 0% round 24px)", opacity: 1 }}
       viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: duration.slow, ease: ease.out }}
     >
       <Image src={src} alt={alt} fill sizes={sizes} placeholder="blur" className="object-cover" />
     </m.div>
@@ -151,7 +152,7 @@ export function CountUp({ to, decimals = 0, suffix = "", className }: { to: numb
 
   useEffect(() => {
     if (!inView || reduce) return;
-    const c = animate(0, to, { duration: 1.6, ease: [0.22, 1, 0.36, 1], onUpdate: (v) => setText(fmt(v)) });
+    const c = animate(0, to, { duration: 1.6, ease: ease.out, onUpdate: (v) => setText(fmt(v)) });
     return () => c.stop();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView, reduce, to]);
@@ -195,7 +196,7 @@ export function DrawLine({ className = "" }: { className?: string }) {
       initial={{ scaleX: 0 }}
       whileInView={{ scaleX: 1 }}
       viewport={{ once: true, amount: 0.8 }}
-      transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: duration.slow + 0.3, ease: ease.out }}
     />
   );
 }

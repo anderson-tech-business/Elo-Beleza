@@ -58,7 +58,7 @@ function Word({ p, i, text }: { p: MotionValue<number>; i: number; text: string 
   const filter = useMotionTemplate`blur(${blur}px)`;
   return (
     <m.span className="block" style={{ opacity, y, filter }}>
-      {i === 1 ? <em className="font-medium italic text-[#F0CFC6]">{text}</em> : text}
+      {i === 1 ? <em className="font-medium italic text-blush">{text}</em> : text}
     </m.span>
   );
 }
@@ -133,7 +133,7 @@ export function HeroScrub({ src, mobileSrc, poster, ratingLabel, reviewsUrl }: P
     return (
       <section className="relative isolate flex min-h-[640px] items-center overflow-hidden bg-ink text-white">
         <Image src={poster} alt="" fill priority placeholder="blur" sizes="100vw" className="-z-20 object-cover" />
-        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[#1f1b1b]/65" />
+        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-night/65" />
         <div className="mx-auto w-full max-w-6xl px-4 py-24">
           <Act1 ratingLabel={ratingLabel} reviewsUrl={reviewsUrl} />
         </div>
@@ -159,10 +159,10 @@ export function HeroScrub({ src, mobileSrc, poster, ratingLabel, reviewsUrl }: P
               />
             )}
           </m.div>
-          <m.div className="absolute inset-0 bg-[#1f1b1b]" style={{ opacity: overlay }} />
+          <m.div className="absolute inset-0 bg-night" style={{ opacity: overlay }} />
         </m.div>
 
-        <FloatingIcons icons={heroIcons} className="text-[#F0CFC6]/50" />
+        <FloatingIcons icons={heroIcons} className="text-blush/50" />
 
         {/* Ato 1 */}
         <m.div
@@ -194,10 +194,10 @@ export function HeroScrub({ src, mobileSrc, poster, ratingLabel, reviewsUrl }: P
           // @ts-expect-error inert é atributo HTML válido; o React 18 ainda não o tipa
           inert={act !== 2 ? "" : undefined}
         >
-          <div className="glass w-full max-w-lg rounded-[28px] p-7 sm:p-9">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#F0CFC6]">Sua primeira visita</p>
-            <h2 className="mt-2 font-serif text-4xl font-semibold leading-tight sm:text-5xl">
-              Começa por uma <em className="font-medium italic text-[#F0CFC6]">conversa</em>
+          <div className="glass w-full max-w-lg rounded-feature p-7 sm:p-9">
+            <p className="eyebrow text-xs text-blush">Sua primeira visita</p>
+            <h2 className="h-section mt-2 text-white">
+              Começa por uma <em className="font-medium italic text-blush">conversa</em>
             </h2>
             <ul className="mt-5 space-y-3">
               {[
@@ -208,12 +208,12 @@ export function HeroScrub({ src, mobileSrc, poster, ratingLabel, reviewsUrl }: P
                 <li key={t} className="flex items-start gap-3">
                   <span aria-hidden="true" className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/20 text-xs">✓</span>
                   <span>
-                    <span className="font-semibold">{t}</span> <span className="text-[#E5DCD9]">· {d}</span>
+                    <span className="font-semibold">{t}</span> <span className="text-on-dark-muted">· {d}</span>
                   </span>
                 </li>
               ))}
             </ul>
-            <Link href="/agendar?servico=avaliacao" className="btn mt-7 w-full bg-white py-4 text-base text-primary-dark hover:bg-primary-soft">
+            <Link href="/agendar?servico=avaliacao" className="btn-light btn-lg mt-7 w-full">
               Agendar avaliação gratuita
             </Link>
           </div>
@@ -231,9 +231,9 @@ export function HeroScrub({ src, mobileSrc, poster, ratingLabel, reviewsUrl }: P
           </span>
         </m.div>
         <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-1 bg-white/10">
-          <m.div className="h-full origin-left bg-[#F0CFC6]" style={{ scaleX: bar }} />
+          <m.div className="h-full origin-left bg-blush" style={{ scaleX: bar }} />
         </div>
-        <span className="absolute bottom-3 right-4 text-[11px] text-white/60">Vídeo ilustrativo</span>
+        <span className="absolute bottom-3 right-4 text-2xs text-white/60">Vídeo ilustrativo</span>
       </div>
     </section>
   );
@@ -243,21 +243,21 @@ function Act1({ ratingLabel, reviewsUrl }: { ratingLabel: string; reviewsUrl: st
   return (
     <>
       <a href={reviewsUrl} target="_blank" rel="noopener noreferrer" className="glass chip px-3 py-1 text-sm text-white">
-        <span aria-hidden="true" className="mr-1 text-[#F1C27D]">★</span>
+        <span aria-hidden="true" className="mr-1 text-gold-light">★</span>
         {ratingLabel}
       </a>
       <h1 className="mt-6 max-w-4xl font-serif text-5xl font-semibold leading-[1.02] sm:text-7xl lg:text-8xl">
-        Harmonização facial <em className="font-medium italic text-[#F0CFC6]">em Itaquera</em>
+        Harmonização facial <em className="font-medium italic text-blush">em Itaquera</em>
       </h1>
-      <p className="mt-5 max-w-xl text-lg text-[#EFE7E4]">
+      <p className="mt-5 max-w-xl text-lg text-on-dark">
         Resultados naturais, seguros e discretos, com atendimento acolhedor e protocolo individual para realçar a sua
         beleza — sem exageros.
       </p>
       <div className="mt-8 flex flex-wrap items-center gap-4">
-        <Link href="/agendar?servico=avaliacao" className="btn bg-white px-8 py-4 text-base text-primary-dark hover:bg-primary-soft">
+        <Link href="/agendar?servico=avaliacao" className="btn-light btn-lg">
           Agendar avaliação
         </Link>
-        <a href="#procedimentos" className="btn min-h-11 border border-white/50 text-white hover:bg-white/10">
+        <a href="#procedimentos" className="btn-outline-light">
           Ver procedimentos
         </a>
       </div>

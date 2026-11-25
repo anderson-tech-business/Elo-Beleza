@@ -8,8 +8,8 @@
  */
 import { LazyMotion, MotionConfig, domAnimation, m, type Variants } from "motion/react";
 import type { ReactNode } from "react";
+import { duration, ease, liftShadow, stagger } from "@/lib/motion-tokens";
 
-const EASE = [0.22, 1, 0.36, 1] as const; // ease-out suave, sem "quique"
 
 export function MotionProvider({ children }: { children: ReactNode }) {
   return (
@@ -21,7 +21,7 @@ export function MotionProvider({ children }: { children: ReactNode }) {
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } },
+  visible: { opacity: 1, y: 0, transition: { duration: duration.base, ease: ease.out } },
 };
 
 /** Bloco que aparece ao entrar na tela */
@@ -50,7 +50,7 @@ export function Reveal({
 
 const container: Variants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.09, delayChildren: 0.05 } },
+  visible: { transition: { staggerChildren: stagger, delayChildren: 0.05 } },
 };
 
 type Tag = "div" | "ul" | "ol" | "dl";
@@ -102,7 +102,7 @@ export function StaggerItem({
       variants={fadeUp}
       whileHover={
         lift
-          ? { y: -6, boxShadow: "0 18px 40px -24px rgba(140,90,80,0.45)", transition: { duration: 0.25, ease: EASE } }
+          ? { y: -6, boxShadow: liftShadow, transition: { duration: duration.fast, ease: ease.out } }
           : undefined
       }
     >
@@ -131,7 +131,7 @@ export function HeroItem({ children, className, from = "up" }: { children: React
       className={className}
       variants={{
         hidden: { opacity: 0, ...(from === "up" ? { y: 18 } : { x: 32 }) },
-        visible: { opacity: 1, x: 0, y: 0, transition: { duration: 0.8, ease: EASE } },
+        visible: { opacity: 1, x: 0, y: 0, transition: { duration: duration.base + 0.1, ease: ease.out } },
       }}
     >
       {children}
@@ -160,7 +160,7 @@ export function Float({ children, className }: { children: ReactNode; className?
       className={className}
       initial={{ opacity: 0, scale: 0.85, y: 12 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
-      transition={{ duration: 1.6, ease: EASE, delay: 0.3 }}
+      transition={{ duration: 1.6, ease: ease.out, delay: 0.3 }}
     >
       {children}
     </m.div>

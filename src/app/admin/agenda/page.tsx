@@ -80,8 +80,8 @@ export default function AgendaPage() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="font-serif text-3xl font-semibold text-primary-dark">Agenda</h1>
-          <p className="mt-1 inline-flex items-center gap-2 rounded-full bg-[#E9F1EC] px-3 py-1 text-xs font-medium text-[#2D5A3E]">
-            <span aria-hidden="true" className="h-2 w-2 rounded-full bg-[#3D7B55]" />
+          <p className="mt-1 inline-flex items-center gap-2 rounded-full bg-success-soft px-3 py-1 text-xs font-medium text-success">
+            <span aria-hidden="true" className="h-2 w-2 rounded-full bg-success" />
             Sincronizado com Google Calendar (simulado no modelo)
           </p>
         </div>
@@ -158,7 +158,7 @@ export default function AgendaPage() {
       <ul className="mt-3 flex flex-wrap gap-3 text-xs" aria-label="Legenda de status">
         {(Object.keys(statusLabels) as Status[]).map((s) => (
           <li key={s} className="flex items-center gap-1.5">
-            <span aria-hidden="true" className="flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold" style={{ background: statusStyle[s].bg, color: statusStyle[s].fg, boxShadow: `inset 0 0 0 1.5px ${statusStyle[s].dot}` }}>
+            <span aria-hidden="true" className="flex h-4 w-4 items-center justify-center rounded-full text-2xs font-bold" style={{ background: statusStyle[s].bg, color: statusStyle[s].fg, boxShadow: `inset 0 0 0 1.5px ${statusStyle[s].dot}` }}>
               {statusIcon[s]}
             </span>
             {statusLabels[s]}
@@ -282,7 +282,7 @@ function TimeGrid({
           <div className="h-11 border-b border-line" />
           <div className="relative" style={{ height }}>
             {hours.map((m) => (
-              <span key={m} className="absolute right-1.5 -translate-y-1/2 text-[10px] text-muted" style={{ top: (m - DAY_START) * PX }}>
+              <span key={m} className="absolute right-1.5 -translate-y-1/2 text-2xs text-muted" style={{ top: (m - DAY_START) * PX }}>
                 {m > DAY_START ? toHHMM(m) : ""}
               </span>
             ))}
@@ -308,7 +308,7 @@ function TimeGrid({
                   </span>
                 )}
               </div>
-              <div className="relative bg-[#F6F1EE]" style={{ height }}>
+              <div className="relative bg-sunken" style={{ height }}>
                 {/* Expediente */}
                 {segments.map(([a, b]) => (
                   <div key={a} className="absolute inset-x-0 bg-white" style={{ top: (toMin(a) - DAY_START) * PX, height: (toMin(b) - toMin(a)) * PX }} />
@@ -323,7 +323,7 @@ function TimeGrid({
                       key={b.id}
                       type="button"
                       onClick={() => onBlock(b)}
-                      className="absolute overflow-hidden rounded-md border border-[#d8d0cc] bg-[repeating-linear-gradient(45deg,#e4dcd8_0_4px,#f4efec_4px_8px)] px-1 text-left text-[10px] font-medium text-muted"
+                      className="absolute overflow-hidden rounded-md border border-line bg-[repeating-linear-gradient(45deg,#e4dcd8_0_4px,#f4efec_4px_8px)] px-1 text-left text-2xs font-medium text-muted"
                       style={{
                         top: (toMin(b.start) - DAY_START) * PX,
                         height: (toMin(b.end) - toMin(b.start)) * PX,
@@ -346,7 +346,7 @@ function TimeGrid({
                       type="button"
                       onClick={() => onSelect(a.id)}
                       title={`${a.start} ${patientName(a.patientId)} — ${svc.name} (${statusLabels[a.status]})`}
-                      className="absolute overflow-hidden rounded-md border-l-[3px] px-1.5 py-0.5 text-left text-[11px] leading-tight shadow-sm hover:z-10 hover:shadow-md"
+                      className="absolute overflow-hidden rounded-md border-l-[3px] px-1.5 py-0.5 text-left text-2xs leading-tight shadow-sm hover:z-10 hover:shadow-md"
                       style={{
                         top: (toMin(a.start) - DAY_START) * PX + 1,
                         height: h - 2,
@@ -401,19 +401,19 @@ function MonthGrid({ cursor, appts, onDay }: { cursor: string; appts: Appointmen
               key={day}
               type="button"
               onClick={() => onDay(day)}
-              className={`min-h-[84px] border-b border-r border-line p-1.5 text-left align-top hover:bg-primary-soft/50 sm:min-h-[104px] ${out ? "bg-[#F6F1EE] text-muted" : ""}`}
+              className={`min-h-[84px] border-b border-r border-line p-1.5 text-left align-top hover:bg-primary-soft/50 sm:min-h-[104px] ${out ? "bg-sunken text-muted" : ""}`}
             >
               <span className={`inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-semibold ${day === today ? "bg-primary-dark text-white" : ""}`}>
                 {Number(day.slice(8))}
               </span>
               {list.length > 0 && (
                 <>
-                  <span className="mt-1 block text-[11px] font-medium text-ink">
+                  <span className="mt-1 block text-2xs font-medium text-ink">
                     {list.length} <span className="hidden sm:inline">atend.</span>
                   </span>
                   <span className="mt-1 flex flex-wrap gap-0.5">
                     {(Object.keys(counts) as Status[]).map((s) => (
-                      <span key={s} className="rounded px-1 text-[10px] font-medium" style={{ background: statusStyle[s].bg, color: statusStyle[s].fg }}>
+                      <span key={s} className="rounded px-1 text-2xs font-medium" style={{ background: statusStyle[s].bg, color: statusStyle[s].fg }}>
                         {counts[s]}
                       </span>
                     ))}
@@ -527,7 +527,7 @@ function AppointmentPanel({
           </section>
         )}
 
-        {toast && <p role="status" className="mt-5 rounded-xl bg-[#E2F0E6] px-4 py-3 text-sm text-[#2D5A3E]">{toast}</p>}
+        {toast && <p role="status" className="mt-5 rounded-xl bg-success-soft px-4 py-3 text-sm text-success">{toast}</p>}
 
         {open && mode === null && (
           <div className="mt-6 grid grid-cols-2 gap-2">
@@ -741,7 +741,7 @@ function NewAppointmentModal({
           <label htmlFor="n-notes" className="label">Observações</label>
           <textarea id="n-notes" rows={2} className="input" value={notes} onChange={(e) => setNotes(e.target.value)} />
         </div>
-        {error && <p role="alert" className="text-sm text-[#A2342B]">{error}</p>}
+        {error && <p role="alert" className="text-sm text-danger">{error}</p>}
         <div className="flex justify-end gap-2">
           <button type="button" className="btn-ghost" onClick={onClose}>Cancelar</button>
           <button type="submit" className="btn-primary">Agendar</button>
@@ -810,7 +810,7 @@ function BlockModal({ lockedPro, defaultDate, onClose }: { lockedPro?: string; d
           )}
         </div>
         {allDay && <p className="text-sm text-muted">Folga bloqueia o dia inteiro.</p>}
-        {error && <p role="alert" className="text-sm text-[#A2342B]">{error}</p>}
+        {error && <p role="alert" className="text-sm text-danger">{error}</p>}
         <div className="flex justify-end gap-2">
           <button type="button" className="btn-ghost" onClick={onClose}>Cancelar</button>
           <button type="submit" className="btn-primary">Bloquear</button>

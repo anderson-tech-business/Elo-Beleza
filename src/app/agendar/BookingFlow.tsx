@@ -310,7 +310,7 @@ export function BookingFlow() {
           <h1 ref={headingRef} tabIndex={-1} className="outline-none font-serif text-3xl font-semibold text-primary-dark">
             Escolha data e horário
           </h1>
-          {errors.time && <p role="alert" className="mt-2 text-sm font-medium text-[#A2342B]">{errors.time}</p>}
+          {errors.time && <p role="alert" className="mt-2 text-sm font-medium text-danger">{errors.time}</p>}
           {!state || !month || !range ? (
             <p role="status" className="mt-6 text-muted">Carregando agenda…</p>
           ) : (
@@ -401,7 +401,7 @@ export function BookingFlow() {
                     <div className="flex gap-4 text-sm">
                       {(["nao", "sim"] as const).map((v) => (
                         <label key={v} className="flex items-center gap-2">
-                          <input id={v === "nao" ? "f-alergia" : undefined} type="radio" name="alergia" aria-invalid={!!errors.alergia} aria-describedby={errors.alergia ? "e-alergia" : undefined} className="h-4 w-4 accent-[var(--color-primary-dark)]" checked={hasAllergy === v} onChange={() => setHasAllergy(v)} />
+                          <input id={v === "nao" ? "f-alergia" : undefined} type="radio" name="alergia" aria-invalid={!!errors.alergia} aria-describedby={errors.alergia ? "e-alergia" : undefined} className="h-4 w-4 accent-primary-dark" checked={hasAllergy === v} onChange={() => setHasAllergy(v)} />
                           {v === "sim" ? "Sim" : "Não"}
                         </label>
                       ))}
@@ -412,18 +412,18 @@ export function BookingFlow() {
                         <input id="f-alergias" className="input" value={anamnese.alergias} onChange={(e) => setAnamnese({ ...anamnese, alergias: e.target.value })} />
                       </div>
                     )}
-                    {errors.alergia && <p id="e-alergia" className="mt-1 text-sm text-[#A2342B]">{errors.alergia}</p>}
+                    {errors.alergia && <p id="e-alergia" className="mt-1 text-sm text-danger">{errors.alergia}</p>}
                   </fieldset>
                 </div>
                 <label className="mt-5 flex items-start gap-3 rounded-xl bg-primary-soft/60 p-3 text-sm">
-                  <input id="f-consent" type="checkbox" className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--color-primary-dark)]" checked={consent} onChange={(e) => setConsent(e.target.checked)} aria-invalid={!!errors.consent} aria-describedby={errors.consent ? "e-consent" : undefined} />
+                  <input id="f-consent" type="checkbox" className="mt-0.5 h-4 w-4 shrink-0 accent-primary-dark" checked={consent} onChange={(e) => setConsent(e.target.checked)} aria-invalid={!!errors.consent} aria-describedby={errors.consent ? "e-consent" : undefined} />
                   <span>
                     Autorizo o uso dos meus dados de saúde informados acima exclusivamente para a minha avaliação e
                     atendimento, conforme a LGPD e a{" "}
                     <a href="/privacidade" target="_blank" className="text-primary-dark underline">Política de Privacidade</a>.
                   </span>
                 </label>
-                {errors.consent && <p id="e-consent" className="mt-1 text-sm text-[#A2342B]">{errors.consent}</p>}
+                {errors.consent && <p id="e-consent" className="mt-1 text-sm text-danger">{errors.consent}</p>}
               </fieldset>
             )}
 
@@ -433,7 +433,7 @@ export function BookingFlow() {
           </div>
 
           {Object.keys(errors).length > 0 && (
-            <p role="alert" className="mt-4 rounded-xl bg-[#FBE9E7] px-4 py-3 text-sm text-[#A2342B]">
+            <p role="alert" className="mt-4 rounded-xl bg-danger-soft px-4 py-3 text-sm text-danger">
               {Object.keys(errors).length === 1 ? "Confira o campo destacado." : `Confira os ${Object.keys(errors).length} campos destacados.`}
             </p>
           )}
@@ -465,7 +465,7 @@ function Field({ id, label, hint, error, children }: { id: string; label: string
         </p>
       )}
       {error && (
-        <p id={`e-${id}`} className="mt-1 text-sm text-[#A2342B]">
+        <p id={`e-${id}`} className="mt-1 text-sm text-danger">
           {error}
         </p>
       )}
@@ -480,7 +480,7 @@ function YesNo({ id, label, value, onChange }: { id: string; label: string; valu
       <div className="flex gap-4 text-sm">
         {[false, true].map((v) => (
           <label key={String(v)} className="flex items-center gap-2">
-            <input type="radio" name={id} className="h-4 w-4 accent-[var(--color-primary-dark)]" checked={value === v} onChange={() => onChange(v)} />
+            <input type="radio" name={id} className="h-4 w-4 accent-primary-dark" checked={value === v} onChange={() => onChange(v)} />
             {v ? "Sim" : "Não"}
           </label>
         ))}

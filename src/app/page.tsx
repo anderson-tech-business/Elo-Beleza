@@ -46,8 +46,6 @@ const passos = [
   { n: "03", title: "Retorno", text: "Revisão em cerca de 15 dias para acompanhar o resultado e fazer ajustes, se necessário." },
 ];
 
-const eyebrow = "text-sm font-semibold uppercase tracking-[0.2em]";
-
 function JsonLd() {
   const data = {
     "@context": "https://schema.org",
@@ -110,7 +108,7 @@ export default function Home() {
                   <dt className="mt-1 text-sm text-muted">{it.l}</dt>
                   <dd className="font-serif text-4xl font-semibold text-primary-dark sm:text-5xl">
                     {it.v}
-                    {it.star && <span aria-hidden="true" className="ml-1 text-3xl text-[#A8742A]">★</span>}
+                    {it.star && <span aria-hidden="true" className="ml-1 text-3xl text-gold">★</span>}
                   </dd>
                 </StaggerItem>
               ))}
@@ -128,11 +126,11 @@ export default function Home() {
                   sizes="(min-width: 1024px) 50vw, 100vw"
                   className="h-[380px] sm:h-[480px] lg:h-full lg:min-h-[640px]"
                 />
-                <span className="chip absolute bottom-3 left-3 bg-white/85 text-[11px] text-muted backdrop-blur">Imagem ilustrativa</span>
+                <span className="chip absolute bottom-3 left-3 bg-white/85 text-2xs text-muted backdrop-blur">Imagem ilustrativa</span>
               </div>
               <div className="px-4 py-14 sm:px-10 lg:py-20 xl:px-16">
                 <Reveal>
-                  <p className={`${eyebrow} text-primary-dark`}>Procedimentos</p>
+                  <p className="eyebrow text-primary-dark">Procedimentos</p>
                   <h2 id="t-harm" className="h-section mt-2">Harmonização facial</h2>
                   <p className="mt-3 max-w-xl text-muted">
                     Cada rosto tem uma história. O plano é definido na avaliação, sempre com indicação individual.
@@ -168,17 +166,17 @@ export default function Home() {
           <section className="relative isolate overflow-hidden bg-ink py-16 text-white sm:py-24" aria-labelledby="t-exp">
             <div className="relative mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-[1fr_1.1fr] lg:items-center">
               <Reveal>
-                <p className={`${eyebrow} text-[#E3BDB4]`}>A experiência</p>
-                <h2 id="t-exp" className="mt-2 font-serif text-4xl font-semibold leading-tight sm:text-5xl">
-                  Um cuidado feito <em className="font-medium italic text-[#F0CFC6]">sem pressa</em>
+                <p className="eyebrow text-blush">A experiência</p>
+                <h2 id="t-exp" className="h-section mt-2 text-white">
+                  Um cuidado feito <em className="font-medium italic text-blush">sem pressa</em>
                 </h2>
-                <p className="mt-4 max-w-md text-[#D9CFCB]">
+                <p className="mt-4 max-w-md text-on-dark-muted">
                   Do primeiro contato ao retorno, cada etapa é pensada para você se sentir segura, ouvida e à vontade.
                 </p>
-                <ul className="mt-6 space-y-3 text-[#EFE7E4]">
+                <ul className="mt-6 space-y-3 text-on-dark">
                   {["Ambiente reservado e acolhedor", "Produtos registrados e técnica segura", "Orientações claras para o pós"].map((t) => (
                     <li key={t} className="flex items-center gap-3">
-                      <span aria-hidden="true" className="h-px w-6 bg-[#E3BDB4]" />
+                      <span aria-hidden="true" className="h-px w-6 bg-blush" />
                       {t}
                     </li>
                   ))}
@@ -191,17 +189,17 @@ export default function Home() {
                       src={media.videos.cuidado.src}
                       poster={media.videos.cuidado.poster}
                       label={media.videos.cuidado.label}
-                      className="aspect-[16/11] rounded-[28px] shadow-2xl lg:aspect-square"
+                      className="aspect-[16/11] rounded-feature shadow-2xl lg:aspect-square"
                     />
                   </Reveal>
                   <RevealImage
                     src={media.serum.src}
                     alt={media.serum.alt}
                     sizes="180px"
-                    className="absolute -bottom-10 -left-10 hidden aspect-[4/5] w-44 rounded-3xl border-4 border-ink shadow-xl lg:block"
+                    className="absolute -bottom-10 -left-10 hidden aspect-[4/5] w-44 rounded-feature border-4 border-ink shadow-xl lg:block"
                   />
                 </div>
-                <p className="mt-3 text-right text-xs text-[#BFB3AF]">Vídeo e imagens ilustrativos</p>
+                <p className="mt-3 text-right text-xs text-on-dark-subtle">Vídeo e imagens ilustrativos</p>
               </div>
             </div>
           </section>
@@ -212,14 +210,14 @@ export default function Home() {
             <div className="mx-auto max-w-6xl px-4">
               <Reveal className="flex flex-wrap items-end justify-between gap-4">
                 <div>
-                  <p className={`${eyebrow} text-primary-dark`}>Cuidados com a pele</p>
+                  <p className="eyebrow text-primary-dark">Cuidados com a pele</p>
                   <h2 id="t-est" className="h-section mt-2">Estética e sobrancelhas</h2>
                 </div>
                 <p className="max-w-sm text-sm text-muted">Valores e imagens ilustrativos. Agende direto pelo serviço.</p>
               </Reveal>
               <Stagger className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
                 {estetica.map((s) => (
-                  <StaggerItem as="article" lift key={s.id} className="group relative isolate flex min-h-[360px] flex-col justify-end overflow-hidden rounded-3xl p-5 text-white">
+                  <StaggerItem as="article" lift key={s.id} className="group relative isolate flex min-h-[360px] flex-col justify-end overflow-hidden rounded-feature p-5 text-white">
                     {media.services[s.id] && (
                       <Image
                         src={media.services[s.id].src}
@@ -230,17 +228,17 @@ export default function Home() {
                         className="-z-20 object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                       />
                     )}
-                    <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-t from-[#1f1b1b] via-[#1f1b1b]/70 to-transparent" />
+                    <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-t from-night via-night/70 to-transparent" />
                     <h3 className="font-serif text-2xl font-semibold leading-tight">{s.name}</h3>
-                    <p className="mt-1 text-sm text-[#E5DCD9]">{s.description}</p>
+                    <p className="mt-1 text-sm text-on-dark-muted">{s.description}</p>
                     <div className="mt-4 flex items-center justify-between gap-3">
                       <p className="text-sm">
-                        <span className="text-[#E5DCD9]">{s.durationMin} min · a partir de </span>
+                        <span className="text-on-dark-muted">{s.durationMin} min · a partir de </span>
                         <span className="font-semibold">{brl(s.price)}</span>
                       </p>
                       <Link
                         href={`/agendar?servico=${s.id}`}
-                        className="btn btn-sm min-h-11 shrink-0 bg-white text-primary-dark hover:bg-primary-soft"
+                        className="btn-light btn-sm min-h-11 shrink-0"
                         aria-label={`Agendar ${s.name}`}
                       >
                         Agendar
@@ -255,18 +253,18 @@ export default function Home() {
           {/* 4. Como funciona — foto da sala ao fundo */}
           <section className="relative isolate overflow-hidden py-20 text-white sm:py-28" aria-labelledby="t-como">
             <BackgroundImage src={media.backgrounds.sala} />
-            <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[#1f1b1b]/70" />
+            <div aria-hidden="true" className="absolute inset-0 -z-10 bg-night/70" />
             <div className="mx-auto max-w-6xl px-4">
               <Reveal>
-                <p className={`${eyebrow} text-[#F0CFC6]`}>Passo a passo</p>
-                <h2 id="t-como" className="mt-2 font-serif text-4xl font-semibold sm:text-5xl">Como funciona</h2>
+                <p className="eyebrow text-blush">Passo a passo</p>
+                <h2 id="t-como" className="h-section mt-2 text-white">Como funciona</h2>
               </Reveal>
               <Stagger as="ol" className="mt-10 grid gap-5 md:grid-cols-3">
                 {passos.map((p) => (
-                  <StaggerItem as="li" key={p.n} className="glass rounded-3xl p-6">
-                    <span aria-hidden="true" className="font-serif text-5xl font-medium italic text-[#F0CFC6]">{p.n}</span>
+                  <StaggerItem as="li" key={p.n} className="glass rounded-feature p-6">
+                    <span aria-hidden="true" className="font-serif text-5xl font-medium italic text-blush">{p.n}</span>
                     <h3 className="mt-3 font-serif text-2xl font-semibold">{p.title}</h3>
-                    <p className="mt-2 text-[#EFE7E4]">{p.text}</p>
+                    <p className="mt-2 text-on-dark">{p.text}</p>
                   </StaggerItem>
                 ))}
               </Stagger>
@@ -279,7 +277,7 @@ export default function Home() {
             <FloatingIcons icons={[{ name: "lotus", top: "14%", left: "84%", size: 56, depth: 1, rotate: -15 }, { name: "heart", top: "70%", left: "6%", size: 30, depth: 1.4, rotate: 20 }, { name: "sparkle", top: "24%", left: "50%", size: 20, depth: 2, rotate: 45 }]} />
             <div className="mx-auto max-w-6xl px-4">
               <Reveal>
-                <p className={`${eyebrow} text-primary-dark`}>Equipe</p>
+                <p className="eyebrow text-primary-dark">Equipe</p>
                 <h2 id="t-quem" className="h-section mt-2">Quem atende</h2>
               </Reveal>
               <Reveal className="mt-10">
@@ -287,7 +285,7 @@ export default function Home() {
                   <div
                     role="img"
                     aria-label="Foto da profissional (a definir)"
-                    className="flex h-36 w-36 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary-soft to-[#e2cbc3] font-serif text-4xl text-primary-dark"
+                    className="flex h-36 w-36 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary-soft to-blush font-serif text-4xl text-primary-dark"
                   >
                     {pro.name.replace("Dra. ", "").split(" ").map((w) => w[0]).join("")}
                   </div>
@@ -307,26 +305,26 @@ export default function Home() {
           {/* 6. Depoimentos — pele em close ao fundo */}
           <section className="relative isolate overflow-hidden py-20 text-white sm:py-28" aria-labelledby="t-dep">
             <BackgroundImage src={media.backgrounds.pele} position="center 40%" />
-            <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-b from-[#1f1b1b]/80 to-[#1f1b1b]/65" />
+            <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-b from-night/80 to-night/65" />
             <div className="mx-auto max-w-6xl px-4">
               <Reveal className="flex flex-wrap items-end justify-between gap-4">
                 <div>
-                  <p className={`${eyebrow} text-[#F0CFC6]`}>Depoimentos</p>
-                  <h2 id="t-dep" className="mt-2 font-serif text-4xl font-semibold sm:text-5xl">O que dizem as pacientes</h2>
+                  <p className="eyebrow text-blush">Depoimentos</p>
+                  <h2 id="t-dep" className="h-section mt-2 text-white">O que dizem as pacientes</h2>
                 </div>
-                <a href={business.googleReviewsUrl} target="_blank" rel="noopener noreferrer" className="btn min-h-11 border border-white/60 text-white hover:bg-white/10">
+                <a href={business.googleReviewsUrl} target="_blank" rel="noopener noreferrer" className="btn-outline-light">
                   Ver avaliações no Google
                 </a>
               </Reveal>
               <Stagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 {testimonials.map((t) => (
-                  <StaggerItem as="figure" key={t.name} className="glass relative flex flex-col rounded-3xl p-5">
+                  <StaggerItem as="figure" key={t.name} className="glass relative flex flex-col rounded-feature p-5">
                     <span className="chip absolute right-4 top-4 bg-white/20 text-white">Exemplo</span>
-                    <span aria-hidden="true" className="font-serif text-6xl leading-none text-[#F0CFC6]">“</span>
+                    <span aria-hidden="true" className="font-serif text-6xl leading-none text-blush">“</span>
                     <blockquote className="flex-1 font-serif text-xl leading-snug">{t.text}</blockquote>
                     <figcaption className="mt-4 text-sm">
                       <span className="font-semibold">{t.name}</span>
-                      <span className="text-[#E5DCD9]"> · {t.procedure}</span>
+                      <span className="text-on-dark-muted"> · {t.procedure}</span>
                     </figcaption>
                   </StaggerItem>
                 ))}
@@ -339,7 +337,7 @@ export default function Home() {
             <FloatingIcons icons={[{ name: "drop", top: "12%", left: "8%", size: 40, depth: 1.2, rotate: -25 }, { name: "leaf", top: "60%", left: "88%", size: 48, depth: 1.5, rotate: 35 }, { name: "bubble", top: "82%", left: "14%", size: 24, depth: 2, rotate: 0 }, { name: "sparkle", top: "28%", left: "90%", size: 22, depth: 1.8, rotate: -40 }]} />
             <div className="mx-auto max-w-3xl px-4">
               <Reveal>
-                <p className={`${eyebrow} text-primary-dark`}>Dúvidas</p>
+                <p className="eyebrow text-primary-dark">Dúvidas</p>
                 <h2 id="t-faq" className="h-section mt-2">Perguntas frequentes</h2>
               </Reveal>
               <Reveal className="mt-8 divide-y divide-line rounded-2xl border border-line bg-surface">
@@ -359,29 +357,29 @@ export default function Home() {
           {/* Chamada com vídeo de fundo */}
           <section className="relative isolate overflow-hidden py-24 text-center text-white sm:py-32" aria-labelledby="t-cta">
             <BackgroundVideo src={media.videos.avaliacao.src} poster={media.videos.avaliacao.poster} />
-            <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[#1f1b1b]/65" />
+            <div aria-hidden="true" className="absolute inset-0 -z-10 bg-night/65" />
             <Reveal className="mx-auto max-w-2xl px-4">
-              <p className={`${eyebrow} text-[#F0CFC6]`}>Primeiro passo</p>
+              <p className="eyebrow text-blush">Primeiro passo</p>
               <h2 id="t-cta" className="mt-3 font-serif text-4xl font-semibold leading-tight sm:text-6xl">
-                Sua avaliação é <em className="font-medium italic text-[#F0CFC6]">gratuita</em>
+                Sua avaliação é <em className="font-medium italic text-blush">gratuita</em>
               </h2>
-              <p className="mx-auto mt-4 max-w-md text-[#EFE7E4]">Escolha o dia e o horário em menos de um minuto, direto pelo celular.</p>
+              <p className="mx-auto mt-4 max-w-md text-on-dark">Escolha o dia e o horário em menos de um minuto, direto pelo celular.</p>
               <Press className="mt-8 inline-block">
-                <Link href="/agendar?servico=avaliacao" className="btn bg-white px-8 py-4 text-base text-primary-dark hover:bg-primary-soft">
+                <Link href="/agendar?servico=avaliacao" className="btn-light btn-lg">
                   Agendar avaliação
                 </Link>
               </Press>
             </Reveal>
-            <span className="absolute bottom-3 left-4 text-[11px] text-white/70">Vídeo ilustrativo</span>
+            <span className="absolute bottom-3 left-4 text-2xs text-white/70">Vídeo ilustrativo</span>
           </section>
 
           {/* 8. Localização — recepção ao fundo */}
           <section id="localizacao" className="relative isolate overflow-hidden py-16 sm:py-24" aria-labelledby="t-loc">
             <BackgroundImage src={media.backgrounds.recepcao} strength={60} />
-            <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[#1f1b1b]/45" />
+            <div aria-hidden="true" className="absolute inset-0 -z-10 bg-night/45" />
             <div className="mx-auto grid max-w-6xl gap-6 px-4 md:grid-cols-[1fr_1.4fr]">
               <Reveal className="card p-6 sm:p-8">
-                <p className={`${eyebrow} text-primary-dark`}>Onde estamos</p>
+                <p className="eyebrow text-primary-dark">Onde estamos</p>
                 <h2 id="t-loc" className="h-section mt-2">Localização</h2>
                 <address className="mt-6 not-italic text-ink">{business.fullAddress}</address>
                 <h3 className="mt-6 font-semibold">Horário de atendimento</h3>

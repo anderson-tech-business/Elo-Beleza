@@ -10,6 +10,7 @@
  */
 import { m, useMotionValue, useReducedMotion, useScroll, useSpring, useTransform, type MotionValue, type Variants } from "motion/react";
 import { useEffect, useRef } from "react";
+import { duration, ease } from "@/lib/motion-tokens";
 
 const paths: Record<string, string[]> = {
   // gota
@@ -114,7 +115,7 @@ function FloatingIcon({
           initial={reduce ? false : "hidden"}
           whileInView="show"
           viewport={{ once: true }}
-          transition={{ duration: 1.8, delay: 0.15 * index + 0.2 * i, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: duration.draw, delay: 0.15 * index + 0.2 * i, ease: ease.out }}
         />
       ))}
     </m.svg>
@@ -123,7 +124,7 @@ function FloatingIcon({
 
 export function FloatingIcons({
   icons = defaultIcons,
-  className = "text-[#B9847A]/60",
+  className = "text-primary/60",
 }: {
   icons?: IconSpec[];
   className?: string;

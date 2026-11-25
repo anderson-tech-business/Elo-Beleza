@@ -81,7 +81,7 @@ export function MonthCalendar({ month, onMonthChange, selected, onSelect, isEnab
                   ? "bg-primary-dark font-semibold text-white"
                   : enabled
                     ? "bg-primary-soft/50 font-semibold text-ink hover:bg-primary-soft"
-                    : "cursor-not-allowed text-[#b9aeaa]"
+                    : "cursor-not-allowed text-muted/50"
               } ${isToday && !isSel ? "ring-1 ring-inset ring-primary-dark" : ""}`}
             >
               {Number(day.slice(8))}
