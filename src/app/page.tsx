@@ -2,6 +2,7 @@ import Link from "next/link";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { MobileCta } from "@/components/MobileCta";
+import { Float, HeroIn, HeroItem, MotionProvider, Press, Reveal, Stagger, StaggerItem } from "@/components/motion";
 import {
   business,
   faq,
@@ -69,12 +70,14 @@ export default function Home() {
     <>
       <JsonLd />
       <SiteHeader />
+      <MotionProvider>
       <main id="conteudo">
         {/* 1. Hero */}
         <section className="relative overflow-hidden">
           <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,var(--color-primary-soft),transparent_60%)]" />
           <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 pb-16 pt-12 sm:pb-24 sm:pt-20 lg:grid-cols-[1.25fr_1fr]">
-            <div>
+            <HeroIn>
+            <HeroItem>
             <a
               href={business.googleReviewsUrl}
               target="_blank"
@@ -84,20 +87,30 @@ export default function Home() {
               <span aria-hidden="true" className="mr-1 text-[#A8742A]">★</span>
               {rating} · {business.reviewCount} avaliações no Google
             </a>
+            </HeroItem>
             <h1 className="mt-6 max-w-3xl font-serif text-5xl font-semibold leading-[1.05] text-primary-dark sm:text-7xl">
               Harmonização facial em Itaquera
             </h1>
+            <HeroItem>
             <p className="mt-5 max-w-xl text-lg text-muted">
               Resultados naturais, seguros e discretos, com atendimento acolhedor e protocolo individual para realçar a
               sua beleza — sem exageros.
             </p>
-            <div className="mt-8">
-              <Link href="/agendar?servico=avaliacao" className="btn-primary px-8 py-4 text-base">
-                Agendar avaliação
-              </Link>
+            </HeroItem>
+            <HeroItem className="mt-8">
+              <Press>
+                <Link href="/agendar?servico=avaliacao" className="btn-primary px-8 py-4 text-base">
+                  Agendar avaliação
+                </Link>
+              </Press>
               <p className="mt-3 text-sm text-muted">Avaliação gratuita · Parque do Carmo, Zona Leste de SP</p>
-            </div>
-            </div>
+            </HeroItem>
+            </HeroIn>
+            <HeroIn className="relative">
+            <Float className="pointer-events-none absolute -right-10 -top-12 -z-10 hidden lg:block">
+              <div aria-hidden="true" className="h-56 w-56 rounded-full bg-[radial-gradient(circle,#e8cfc6,transparent_70%)] opacity-80" />
+            </Float>
+            <HeroItem from="right">
             <aside aria-labelledby="t-visita" className="card relative p-6 shadow-[0_20px_60px_-30px_rgba(140,90,80,0.45)] sm:p-8">
               <p className="text-xs font-semibold uppercase tracking-widest text-primary-dark">Sua primeira visita</p>
               <h2 id="t-visita" className="mt-2 font-serif text-3xl font-semibold text-ink">Começa por uma conversa</h2>
@@ -120,20 +133,24 @@ export default function Home() {
                 <span className="font-medium text-ink">{business.street}</span> · {business.neighborhood}
               </p>
             </aside>
+            </HeroItem>
+            </HeroIn>
           </div>
         </section>
 
         {/* 2. Harmonização */}
         <section id="procedimentos" className="bg-surface py-16 sm:py-20" aria-labelledby="t-harm">
           <div className="mx-auto max-w-6xl px-4">
+            <Reveal>
             <p className="text-sm font-semibold uppercase tracking-widest text-primary-dark">Procedimentos</p>
             <h2 id="t-harm" className="h-section mt-2">Harmonização facial</h2>
             <p className="mt-3 max-w-2xl text-muted">
               Cada rosto tem uma história. O plano é definido na avaliação, sempre com indicação individual.
             </p>
-            <div className="mt-10 grid gap-6 md:grid-cols-2">
+            </Reveal>
+            <Stagger className="mt-10 grid gap-6 md:grid-cols-2">
               {harmonizacao.map((h) => (
-                <article key={h.title} className="card p-6 sm:p-8">
+                <StaggerItem as="article" lift key={h.title} className="card p-6 sm:p-8">
                   <h3 className="font-serif text-2xl font-semibold text-ink">{h.title}</h3>
                   <p className="mt-3 text-muted">{h.text}</p>
                   <ul className="mt-5 flex flex-wrap gap-2" aria-label="Regiões">
@@ -141,27 +158,31 @@ export default function Home() {
                       <li key={a} className="chip bg-primary-soft text-primary-dark">{a}</li>
                     ))}
                   </ul>
-                </article>
+                </StaggerItem>
               ))}
-            </div>
-            <div className="mt-8 flex flex-col items-start gap-3 rounded-2xl bg-primary-soft/60 p-5 sm:flex-row sm:items-center sm:justify-between">
+            </Stagger>
+            <Reveal className="mt-8 flex flex-col items-start gap-3 rounded-2xl bg-primary-soft/60 p-5 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-ink">
                 <span className="font-semibold">Não sabe o que escolher?</span>{" "}
                 <span className="text-muted">A avaliação gratuita define o melhor caminho para você.</span>
               </p>
-              <Link href="/agendar?servico=avaliacao" className="btn-primary shrink-0">Agendar avaliação</Link>
-            </div>
+              <Press className="shrink-0">
+                <Link href="/agendar?servico=avaliacao" className="btn-primary">Agendar avaliação</Link>
+              </Press>
+            </Reveal>
           </div>
         </section>
 
         {/* 3. Estética */}
         <section className="py-16 sm:py-20" aria-labelledby="t-est">
           <div className="mx-auto max-w-6xl px-4">
+            <Reveal>
             <p className="text-sm font-semibold uppercase tracking-widest text-primary-dark">Cuidados com a pele</p>
             <h2 id="t-est" className="h-section mt-2">Estética e sobrancelhas</h2>
-            <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            </Reveal>
+            <Stagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {estetica.map((s) => (
-                <article key={s.id} className="card flex flex-col p-5">
+                <StaggerItem as="article" lift key={s.id} className="card flex flex-col p-5">
                   <h3 className="font-semibold text-ink">{s.name}</h3>
                   <p className="mt-2 flex-1 text-sm text-muted">{s.description}</p>
                   <dl className="mt-4 flex items-end justify-between border-t border-line pt-3 text-sm">
@@ -181,9 +202,9 @@ export default function Home() {
                   >
                     Agendar
                   </Link>
-                </article>
+                </StaggerItem>
               ))}
-            </div>
+            </Stagger>
             <p className="mt-4 text-xs text-muted">Valores ilustrativos.</p>
           </div>
         </section>
@@ -191,28 +212,33 @@ export default function Home() {
         {/* 4. Como funciona */}
         <section className="bg-primary-soft/60 py-16 sm:py-20" aria-labelledby="t-como">
           <div className="mx-auto max-w-6xl px-4">
+            <Reveal>
             <p className="text-sm font-semibold uppercase tracking-widest text-primary-dark">Passo a passo</p>
             <h2 id="t-como" className="h-section mt-2">Como funciona</h2>
-            <ol className="mt-10 grid gap-6 md:grid-cols-3">
+            </Reveal>
+            <Stagger as="ol" className="mt-10 grid gap-6 md:grid-cols-3">
               {passos.map((p) => (
-                <li key={p.n} className="card p-6">
+                <StaggerItem as="li" lift key={p.n} className="card p-6">
                   <span aria-hidden="true" className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-dark font-serif text-xl text-white">
                     {p.n}
                   </span>
                   <h3 className="mt-4 font-serif text-2xl font-semibold">{p.title}</h3>
                   <p className="mt-2 text-muted">{p.text}</p>
-                </li>
+                </StaggerItem>
               ))}
-            </ol>
+            </Stagger>
           </div>
         </section>
 
         {/* 5. Quem atende */}
         <section className="py-16 sm:py-20" aria-labelledby="t-quem">
           <div className="mx-auto max-w-6xl px-4">
+            <Reveal>
             <p className="text-sm font-semibold uppercase tracking-widest text-primary-dark">Equipe</p>
             <h2 id="t-quem" className="h-section mt-2">Quem atende</h2>
-            <article className="card mt-10 flex flex-col gap-6 p-6 sm:flex-row sm:items-center sm:p-8">
+            </Reveal>
+            <Reveal className="mt-10">
+            <article className="card flex flex-col gap-6 p-6 sm:flex-row sm:items-center sm:p-8">
               <div
                 role="img"
                 aria-label="Foto da profissional (a definir)"
@@ -229,13 +255,14 @@ export default function Home() {
                 </p>
               </div>
             </article>
+            </Reveal>
           </div>
         </section>
 
         {/* 6. Depoimentos */}
         <section className="bg-surface py-16 sm:py-20" aria-labelledby="t-dep">
           <div className="mx-auto max-w-6xl px-4">
-            <div className="flex flex-wrap items-end justify-between gap-4">
+            <Reveal className="flex flex-wrap items-end justify-between gap-4">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-widest text-primary-dark">Depoimentos</p>
                 <h2 id="t-dep" className="h-section mt-2">O que dizem as pacientes</h2>
@@ -243,10 +270,10 @@ export default function Home() {
               <a href={business.googleReviewsUrl} target="_blank" rel="noopener noreferrer" className="btn-outline">
                 Ver avaliações no Google
               </a>
-            </div>
-            <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            </Reveal>
+            <Stagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {testimonials.map((t) => (
-                <figure key={t.name} className="card relative flex flex-col p-5">
+                <StaggerItem as="figure" lift key={t.name} className="card relative flex flex-col p-5">
                   <span className="chip absolute right-4 top-4 bg-[#EFE9E6] text-muted">Exemplo</span>
                   <span aria-hidden="true" className="font-serif text-5xl leading-none text-primary">“</span>
                   <blockquote className="flex-1 text-sm text-ink">{t.text}</blockquote>
@@ -254,18 +281,20 @@ export default function Home() {
                     <span className="font-semibold">{t.name}</span>
                     <span className="text-muted"> · {t.procedure}</span>
                   </figcaption>
-                </figure>
+                </StaggerItem>
               ))}
-            </div>
+            </Stagger>
           </div>
         </section>
 
         {/* 7. FAQ */}
         <section id="duvidas" className="py-16 sm:py-20" aria-labelledby="t-faq">
           <div className="mx-auto max-w-3xl px-4">
+            <Reveal>
             <p className="text-sm font-semibold uppercase tracking-widest text-primary-dark">Dúvidas</p>
             <h2 id="t-faq" className="h-section mt-2">Perguntas frequentes</h2>
-            <div className="mt-8 divide-y divide-line rounded-2xl border border-line bg-surface">
+            </Reveal>
+            <Reveal className="mt-8 divide-y divide-line rounded-2xl border border-line bg-surface">
               {faq.map((f) => (
                 <details key={f.q} className="group px-5 py-1">
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 font-medium [&::-webkit-details-marker]:hidden">
@@ -275,14 +304,14 @@ export default function Home() {
                   <p className="pb-4 text-muted">{f.a}</p>
                 </details>
               ))}
-            </div>
+            </Reveal>
           </div>
         </section>
 
         {/* 8. Localização */}
         <section id="localizacao" className="bg-surface py-16 sm:py-20" aria-labelledby="t-loc">
           <div className="mx-auto grid max-w-6xl gap-8 px-4 md:grid-cols-[1fr_1.4fr]">
-            <div>
+            <Reveal>
               <p className="text-sm font-semibold uppercase tracking-widest text-primary-dark">Onde estamos</p>
             <h2 id="t-loc" className="h-section mt-2">Localização</h2>
               <address className="mt-6 not-italic text-ink">{business.fullAddress}</address>
@@ -296,9 +325,11 @@ export default function Home() {
                 ))}
               </dl>
               <p className="mt-2 text-xs text-muted">Horário ilustrativo.</p>
-              <Link href="/agendar?servico=avaliacao" className="btn-primary mt-6">Agendar avaliação</Link>
-            </div>
-            <div className="relative overflow-hidden rounded-2xl border border-line bg-primary-soft/60">
+              <Press className="mt-6 inline-block">
+                <Link href="/agendar?servico=avaliacao" className="btn-primary">Agendar avaliação</Link>
+              </Press>
+            </Reveal>
+            <Reveal delay={0.15} className="relative overflow-hidden rounded-2xl border border-line bg-primary-soft/60">
               <a
                 href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(business.fullAddress)}`}
                 target="_blank"
@@ -314,10 +345,11 @@ export default function Home() {
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               />
-            </div>
+            </Reveal>
           </div>
         </section>
       </main>
+      </MotionProvider>
       <SiteFooter />
       <MobileCta />
     </>
