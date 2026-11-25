@@ -464,7 +464,6 @@ export function generateDemoState(today: string): DemoState {
  *     Regra do projeto: sem fotos de antes e depois e sem rostos
  *     de banco de imagem no lugar de profissionais ou pacientes reais.
  * ------------------------------------------------------------- */
-import heroImg from "@/assets/media/hero.jpg";
 import harmonizacaoImg from "@/assets/media/harmonizacao.jpg";
 import limpezaImg from "@/assets/media/limpeza.jpg";
 import acneImg from "@/assets/media/acne.jpg";
@@ -472,9 +471,15 @@ import microdermoImg from "@/assets/media/microdermo.jpg";
 import sobrancelhaImg from "@/assets/media/sobrancelha.jpg";
 import serumImg from "@/assets/media/serum.jpg";
 import cuidadoPoster from "@/assets/media/cuidado-poster.jpg";
+import heroPoster from "@/assets/media/hero-poster.jpg";
+import avaliacaoPoster from "@/assets/media/avaliacao-poster.jpg";
+import bgSala from "@/assets/media/bg-sala.jpg";
+import bgPele from "@/assets/media/bg-pele.jpg";
+import bgRecepcao from "@/assets/media/bg-recepcao.jpg";
+
+type Img = { src: typeof serumImg; alt: string };
 
 export const media = {
-  hero: { src: heroImg, alt: "Mulher de perfil com pele natural e cabelos soltos, em luz suave" },
   harmonizacao: { src: harmonizacaoImg, alt: "Profissional de luvas durante procedimento facial em paciente de olhos fechados" },
   serum: { src: serumImg, alt: "Frasco âmbar de sérum com conta-gotas sobre pedra clara" },
   services: {
@@ -482,10 +487,16 @@ export const media = {
     acne: { src: acneImg, alt: "Aplicação de máscara com pincel em tratamento facial" },
     microdermo: { src: microdermoImg, alt: "Aparelho de microdermoabrasão sendo usado na testa da paciente" },
     sobrancelha: { src: sobrancelhaImg, alt: "Design de sobrancelha com linha" },
-  } as Record<string, { src: typeof heroImg; alt: string }>,
-  video: {
-    src: "/media/cuidado.mp4",
-    poster: cuidadoPoster,
-    label: "Vídeo ilustrativo: massagem facial feita com calma por profissional de luvas",
+  } as Record<string, Img>,
+  /** Fundos (decorativos: sem texto alternativo) */
+  backgrounds: { sala: bgSala, pele: bgPele, recepcao: bgRecepcao },
+  videos: {
+    hero: { src: "/media/hero.mp4", mobileSrc: "/media/hero-mobile.mp4", poster: heroPoster },
+    cuidado: {
+      src: "/media/cuidado.mp4",
+      poster: cuidadoPoster,
+      label: "Vídeo ilustrativo: massagem facial feita com calma por profissional de luvas",
+    },
+    avaliacao: { src: "/media/avaliacao.mp4", poster: avaliacaoPoster },
   },
 };

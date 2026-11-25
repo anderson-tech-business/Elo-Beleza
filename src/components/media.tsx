@@ -199,3 +199,113 @@ export function DrawLine({ className = "" }: { className?: string }) {
     />
   );
 }
+
+/* ----------------------------- Vídeo de fundo ----------------------------- */
+/**
+ * Preenche o elemento pai (que deve ser `relative`). O pôster aparece na hora
+ * (next/image, bom para LCP); o vídeo entra com fade quando começa a tocar.
+ * Decorativo: sem som, toca só visível, botão de pausa (WCAG 2.2.2) e não
+ * inicia para quem pede menos movimento.
+ */
+export function BackgroundVideo({
+  src,
+  mobileSrc,
+  poster,
+  priority = false,
+  buttonClassName = "bottom-4 right-4",
+}: {
+  src: string;
+  mobileSrc?: string;
+  poster: StaticImageData;
+  priority?: boolean;
+  buttonClassName?: string;
+}) {
+  const ref = useRef<HTMLVideoElement>(null);
+  const reduce = useReducedMotion();
+  const [source, setSource] = useState<string | null>(null);
+  const [playing, setPlaying] = useState(false);
+  const [userPaused, setUserPaused] = useState(false);
+
+  // Escolhe o arquivo depois de montar (vídeo menor e vertical no celular)
+  useEffect(() => {
+    if (reduce) return;
+    setSource(mobileSrc && window.matchMedia("(max-width: 640px)").matches ? mobileSrc : src);
+  }, [src, mobileSrc, reduce]);
+
+  useEffect(() => {
+    const v = ref.current;
+    if (!v || !source) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting && !userPaused) v.play().catch(() => undefined);
+        else v.pause();
+      },
+      { threshold: 0.2 },
+    );
+    io.observe(v);
+    return () => io.disconnect();
+  }, [source, userPaused]);
+
+  const toggle = () => {
+    const v = ref.current;
+    if (!v) return;
+    if (v.paused) {
+      setUserPaused(false);
+      v.play().catch(() => undefined);
+    } else {
+      setUserPaused(true);
+      v.pause();
+    }
+  };
+
+  return (
+    <>
+      <div aria-hidden="true" className="absolute inset-0 -z-20">
+        <Image src={poster} alt="" fill priority={priority} placeholder="blur" sizes="100vw" className="object-cover" />
+        {source && (
+          <video
+            ref={ref}
+            src={source}
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            onPlaying={() => setPlaying(true)}
+            onPause={() => setPlaying(false)}
+            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${playing ? "opacity-100" : "opacity-0"}`}
+          />
+        )}
+      </div>
+      {source && (
+        <button
+          type="button"
+          onClick={toggle}
+          className={`absolute z-10 flex h-11 w-11 items-center justify-center rounded-full border border-white/40 bg-black/30 text-white backdrop-blur transition-colors hover:bg-black/50 ${buttonClassName}`}
+          aria-label={playing ? "Pausar vídeo de fundo" : "Reproduzir vídeo de fundo"}
+        >
+          {playing ? (
+            <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5 fill-current"><path d="M7 5h4v14H7zM13 5h4v14h-4z" /></svg>
+          ) : (
+            <svg aria-hidden="true" viewBox="0 0 24 24" className="ml-0.5 h-5 w-5 fill-current"><path d="M8 5v14l11-7z" /></svg>
+          )}
+        </button>
+      )}
+    </>
+  );
+}
+
+/* ----------------------------- Imagem de fundo com parallax ----------------------------- */
+/** Preenche o elemento pai (que deve ser `relative overflow-hidden`). Decorativa. */
+export function BackgroundImage({ src, strength = 80, position = "center" }: { src: StaticImageData; strength?: number; position?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [-strength / 2, strength / 2]);
+  return (
+    <div ref={ref} aria-hidden="true" className="absolute inset-0 -z-20 overflow-hidden">
+      <m.div className="absolute -inset-y-[15%] inset-x-0" style={{ y }}>
+        <Image src={src} alt="" fill placeholder="blur" sizes="100vw" className="object-cover" style={{ objectPosition: position }} />
+      </m.div>
+    </div>
+  );
+}
